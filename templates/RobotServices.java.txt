@@ -1,0 +1,71 @@
+package frc.robot.runtime;
+import edu.wpi.first.networktables.*;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.function.*;
+
+public final class RobotServices {
+    private RobotServices() {}
+    private static DriveIO drive;
+    private static RobotVision vision;
+    private static final Map<String, DoubleSupplier> metrics=new LinkedHashMap<>();
+    private static final Map<String, DoublePublisher> publishers=new HashMap<>();
+    private static final Map<String, Supplier<Command>> methods=new HashMap<>();
+    private static final Map<String, Command> runningMethods=new HashMap<>();
+    private static final Map<String, Double> noticeTimes=new HashMap<>();
+    private static final Field2d field=new Field2d();
+    private static final StructPublisher<Pose2d> posePublisher=NetworkTableInstance.getDefault().getStructTopic("/FRCStudio/Drive/Pose",Pose2d.struct).publish();
+    private static double lastPublish=-1;
+    public static void initialize(DriveIO value) {
+        drive=value;
+        vision=new RobotVision(value);
+        SmartDashboard.putData("FRCStudio/Field",field);
+        NetworkTableInstance.getDefault().getEntry("/FRCStudio/schemaVersion").setInteger(1);
+        NetworkTableInstance.getDefault().getEntry("/FRCStudio/coordinateFrame").setString("WPILib-blue-origin; metres; radians; CCW-positive");
+    }
+    public static void zeroGyro() {
+        Pose2d old=drive==null?null:drive.getPose();
+        frc.robot.RobotIO.zeroGyro();
+        if(old!=null)drive.resetPose(new Pose2d(old.getTranslation(),new edu.wpi.first.math.geometry.Rotation2d()));
+    }
+    public static DriveIO drive() { if(drive==null)throw new IllegalStateException("Drive odometry unavailable");return drive; }
+    public static RobotVision vision() { return vision; }
+    public static void metric(String key, DoubleSupplier source) { metrics.put(key,source); }
+    public static void registerMethod(String key,Supplier<Command> supplier) { methods.put(key,supplier); }
+    public static void startMethod(String key,double duration) {
+        if(!DriverStation.isEnabled()||!Double.isFinite(duration)||duration<=0)return;
+        Supplier<Command> factory=methods.get(key);
+        if(factory==null)throw new IllegalArgumentException("Unknown method: "+key);
+        Command previous=runningMethods.get(key);
+        if(previous!=null&&previous.isScheduled())return;
+        Command command=factory.get().withTimeout(Math.min(15,duration));
+        runningMethods.put(key,command);
+        CommandScheduler.getInstance().schedule(command);
+    }
+    private static String key(String key) { return key.startsWith("/")?key:"/SmartDashboard/"+key; }
+    public static double number(String key,double fallback) { return NetworkTableInstance.getDefault().getEntry(key(key)).getDouble(fallback); }
+    public static boolean flag(String key) { return NetworkTableInstance.getDefault().getEntry(key(key)).getBoolean(false); }
+    public static void publishFlag(String key,boolean value) { NetworkTableInstance.getDefault().getEntry(key(key)).setBoolean(value); }
+    public static void publish(String key,double value) {
+        if(Double.isFinite(value))publishers.computeIfAbsent(key(key),k->NetworkTableInstance.getDefault().getDoubleTopic(k).publish()).set(value);
+    }
+    public static void notice(String title,String message) { double now=Timer.getFPGATimestamp();String key=title+"\n"+message;if(now-noticeTimes.getOrDefault(key,-100.0)<1.0)return;noticeTimes.put(key,now);@@ELASTIC_NOTICE@@ }
+    public static void tab(String name) { @@ELASTIC_TAB@@ }
+    public static void periodic() {
+        if(vision!=null)vision.periodic();
+        if(!@@TELEMETRY@@)return;
+        double now=Timer.getFPGATimestamp();if(now-lastPublish<@@PUBLISH_PERIOD@@)return;lastPublish=now;
+        publish("/FRCStudio/Robot/time",now);
+        publish("/FRCStudio/Robot/batteryVolts",RobotController.getBatteryVoltage());
+        NetworkTableInstance.getDefault().getEntry("/FRCStudio/Robot/enabled").setBoolean(DriverStation.isEnabled());
+        NetworkTableInstance.getDefault().getEntry("/FRCStudio/Robot/mode").setString(DriverStation.isAutonomous()?"autonomous":DriverStation.isTest()?"test":"teleop");
+        for(var entry:metrics.entrySet())publish("/FRCStudio/Devices/"+entry.getKey(),entry.getValue().getAsDouble());
+        if(drive!=null) { Pose2d pose=drive.getPose();field.setRobotPose(pose);posePublisher.set(pose); }
+    }
+}

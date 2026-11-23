@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FRC Blockly Studio 3 · 2026</title>
+<link rel="stylesheet" href="style.css">
+<script defer src="vendor/blockly_compressed.js"></script>
+<script defer src="vendor/blocks_compressed.js"></script>
+<script defer src="vendor/msg/en.js"></script>
+<script defer src="vendor/jszip.min.js"></script>
+<script defer src="model.js"></script>
+<script defer src="integrations-model.js"></script>
+<script defer src="integrations-blocks.js"></script>
+<script defer src="blocks.js"></script>
+<script defer src="assets.js"></script>
+<script defer src="generator.js"></script>
+<script defer src="integration-assets.js"></script>
+<script defer src="integration-generator.js"></script>
+<script defer src="robot-contract.js"></script>
+<script defer src="advanced-blocks.js"></script>
+<script defer src="basic-motor-blocks.js"></script>
+<script defer src="example.js"></script>
+<script defer src="app.js"></script>
+<script defer src="studio-ui.js"></script>
+<script defer src="studio-sim.js"></script>
+<script defer src="advanced-ui.js"></script>
+<script defer src="simple-toolbox.js"></script>
+</head>
+<body>
+<header><div><strong>FRC <em>Blockly</em></strong><span>2026 · WPILib + YAGSL</span></div><nav>
+<button id="save-json">Save JSON</button><button id="load-json">Open JSON</button><button id="preview">Inspect code</button><button class="primary" id="export">Export robot project</button>
+<input type="file" id="load-file" accept=".json,application/json" hidden>
+</nav></header>
+<main>
+<aside class="sidebar">
+  <div class="tabs"><button data-tab="subsystems" class="active">Subsystems</button><button data-tab="swerve">Swerve</button><button data-tab="settings">Project</button></div>
+  <section id="tab-subsystems">
+    <div class="section-head"><h2>Subsystems</h2><button id="add-subsystem">+ Add</button></div>
+    <div id="subsystem-list"></div>
+    <div id="components-area" hidden>
+      <h2 id="comp-label"></h2>
+      <div class="actions"><button data-add="motor">+ Motor</button><button data-add="encoder">+ Encoder</button><button data-add="limitswitch">+ Limit</button></div>
+      <div id="component-list"></div>
+      <div class="section-head"><h2>Methods</h2><button id="add-method">+ Add</button></div>
+      <div id="method-list"></div>
+      <p class="hint">Select a method and connect blocks to its entry point. Motor and sensor blocks belong to the selected subsystem.</p>
+    </div>
+  </section>
+  <section id="tab-swerve" hidden>
+    <canvas id="swerve-canvas" width="280" height="280" aria-label="Swerve modules"></canvas>
+    <div class="module-tabs" id="module-tabs"></div>
+    <div id="swerve-module-editor"></div>
+  </section>
+  <section id="tab-settings" hidden><div id="project-settings"></div></section>
+  <footer><span id="save-state">Loading…</span><button id="load-example">Example project</button></footer>
+</aside>
+<section id="blocklyArea">
+  <div class="workspace-toolbar"><strong id="method-label">Select a method</strong><span id="workspace-state"></span><button id="method-options" hidden>Method settings</button></div>
+  <div id="workspace-wrap"><div id="blocklyDiv"></div><div id="workspace-empty"><h1>Build robot behavior with blocks.</h1><p>Start by adding a subsystem and method on the left.</p><button id="add-first-method" class="primary">Create your first method</button></div></div>
+</section>
+<aside class="rightbar">
+  <h2>Controller bindings</h2><p class="hint">Select a button to assign an action.</p>
+  <div id="ctrl-map"></div><div id="bindings-list"></div>
+  <div class="section-head"><h2>Autonomous sequence</h2><button id="add-auto">+ Step</button></div>
+  <div id="auto-list"></div><p class="hint">Methods run every 20 ms for the chosen duration. The subsystem stops when the step ends.</p>
+  <div class="section-head"><h2>Project validation</h2><button id="check">Check project</button></div>
+  <div id="diagnostics" aria-live="polite"></div>
+</aside>
+</main>
+<div id="toast" role="status"></div><div id="modal-container"></div>
+<noscript>JavaScript is required to use this application.</noscript>
+</body></html>

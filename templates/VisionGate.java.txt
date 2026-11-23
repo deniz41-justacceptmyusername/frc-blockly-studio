@@ -1,0 +1,23 @@
+package frc.robot.runtime;
+import edu.wpi.first.math.geometry.Pose2d;
+import java.util.*;
+public final class VisionGate {
+    public record Limits(double maxAge,double maxAmbiguity,double maxDistance,double maxZ,double maxJump,double maxYawRate,double fieldLength,double fieldWidth) {}
+    private final Limits limits;
+    private final Map<String,Double> lastAccepted=new HashMap<>();
+    public VisionGate(Limits limits) { this.limits=limits; }
+    public boolean accept(String camera,VisionCamera.Measurement m,double now,double yawRate,Pose2d current,boolean enabled) {
+        if(m==null||m.pose()==null||m.tags()<1)return false;
+        double x=m.pose().getX(),y=m.pose().getY(),z=m.pose().getZ(),t=m.timestamp();
+        var rotation=m.pose().getRotation();
+        if(!Double.isFinite(rotation.getX())||!Double.isFinite(rotation.getY())||!Double.isFinite(rotation.getZ())||!Double.isFinite(now))return false;
+        if(!Double.isFinite(x)||!Double.isFinite(y)||!Double.isFinite(z)||!Double.isFinite(t)||!Double.isFinite(m.distance())||!Double.isFinite(yawRate))return false;
+        if(t<=lastAccepted.getOrDefault(camera,-1.0)||now-t>limits.maxAge||t>now+0.02)return false;
+        if(Math.abs(z)>limits.maxZ||x<-.25||y<-.25||x>limits.fieldLength+.25||y>limits.fieldWidth+.25)return false;
+        if(Math.abs(m.pose().getRotation().getX())>Math.toRadians(20)||Math.abs(m.pose().getRotation().getY())>Math.toRadians(20))return false;
+        if(m.distance()<0||m.distance()>limits.maxDistance||Math.abs(yawRate)>limits.maxYawRate)return false;
+        if(m.tags()==1&&(!Double.isFinite(m.ambiguity())||m.ambiguity()<0||m.ambiguity()>limits.maxAmbiguity))return false;
+        if(enabled&&current.getTranslation().getDistance(m.pose().toPose2d().getTranslation())>limits.maxJump)return false;
+        lastAccepted.put(camera,t);return true;
+    }
+}

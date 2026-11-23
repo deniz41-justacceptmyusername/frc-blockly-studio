@@ -1,0 +1,16 @@
+'use strict';
+FRC.robotManifest=p=>{
+  const i=p.integrations,sc=p.swerveConfig,radians=d=>d*Math.PI/180;
+  return {schemaVersion:1,producer:'FRC Blockly Studio 3',projectSchema:p.schemaVersion,team:p.team,name:p.name,coordinateFrame:{origin:'blue-alliance',x:'field forward',y:'field left',z:'up',rotation:'counterclockwise'},units:{geometryLength:'metres',poseAngle:'radians',linearVelocity:'metres/second',angularVelocity:'radians/second',motorPosition:'rotations',motorVelocity:'rotations/second',encoderVelocity:'revolutions/minute',servoAngle:'degrees',time:'seconds (FPGA)'},fieldLayout:i.field,
+    telemetry:{root:'/FRCStudio',pose:{topic:'/FRCStudio/Drive/Pose',type:'struct:Pose2d'},modules:{topic:'/FRCStudio/Drive/MeasuredModules',type:'struct:SwerveModuleState[]',order:[...(sc.moduleOrder||FRC.moduleNames)]},devices:'/FRCStudio/Devices',simulation:'/FRCStudio/Simulation',publishPeriod:i.telemetry.publishPeriod},
+    drive:FRC.clone(p.drive),
+    swerve:p.drive.type!=='swerve'?null:{maximumSpeed:sc.maxSpeed,wheelDiameter:sc.physical.wheelDiameter*.0254,driveGearRatio:sc.physical.driveGearRatio,angleGearRatio:sc.physical.angleGearRatio,gyro:FRC.clone(sc.gyro),modules:FRC.moduleNames.map(name=>{const m=sc.modules[name];return {name,location:{x:m.location.front*.0254,y:m.location.left*.0254,z:0},drive:FRC.clone(m.drive),angle:FRC.clone(m.angle),encoder:{...FRC.clone(m.encoder),offsetRadians:radians(m.encoder.offset),offset:undefined}};})},
+    motion:FRC.clone(i.motion),
+    subsystems:p.subsystems.map(ss=>({name:ss.name,components:ss.components.map(c=>{const out=FRC.clone(c);if(c.type==='motor'){out.simulation={...FRC.physicsDefaults(),...c.simulation};out.simulation.positionUnit=out.simulation.model==='elevator'?'metres':out.simulation.model==='arm'?'radians':'rotations';}return out;})})),
+    cameras:i.cameras.map(c=>({id:c.id,kind:c.kind,name:c.name,enabled:c.enabled,pipeline:c.pipeline,poseFusion:c.poseFusion,translation:{x:c.x,y:c.y,z:c.z},rotation:{roll:radians(c.roll),pitch:radians(c.pitch),yaw:radians(c.yaw)}})),
+    compatibility:{physicsTransport:'not implemented in contract v1',robotProjectFile:'frc_project.json',note:'WPILib desktop simulation runs the generated Java. The browser preview is a separate bounded logic/kinematics interpreter.'}
+  };
+};
+FRC.robotManifestSchema={
+  '$schema':'https://json-schema.org/draft/2020-12/schema',title:'FRC Blockly Studio simulator contract v1',type:'object',required:['schemaVersion','producer','team','coordinateFrame','units','telemetry','drive','subsystems','cameras'],properties:{schemaVersion:{const:1},producer:{type:'string'},team:{type:'integer',minimum:1,maximum:99999},name:{type:'string'},coordinateFrame:{type:'object'},units:{type:'object'},telemetry:{type:'object',required:['root','pose','modules','devices']},drive:{type:'object',required:['type'],properties:{type:{enum:['none','swerve','differential','mecanum']}}},swerve:{type:['object','null']},motion:{type:'object'},subsystems:{type:'array',items:{type:'object',required:['name','components'],properties:{name:{type:'string'},components:{type:'array'}}}},cameras:{type:'array',items:{type:'object',required:['id','kind','translation','rotation']}}}
+};

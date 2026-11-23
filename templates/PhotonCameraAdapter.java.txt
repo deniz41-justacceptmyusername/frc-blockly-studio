@@ -1,0 +1,42 @@
+package frc.robot.runtime;
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.common.hardware.VisionLEDMode;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.geometry.*;
+import java.util.function.Consumer;
+public final class PhotonCameraAdapter extends VisionCamera {
+    private final PhotonCamera camera;
+    private final PhotonPoseEstimator estimator;
+    private boolean latestFrameOnly;
+    public void setLatestFrameOnly(boolean value){latestFrameOnly=value;}
+    public PhotonCameraAdapter(String name,AprilTagFieldLayout layout,double x,double y,double z,double roll,double pitch,double yaw,int pipeline,boolean driver) {
+        camera=new PhotonCamera(name);
+        estimator=new PhotonPoseEstimator(layout,new Transform3d(x,y,z,new Rotation3d(Math.toRadians(roll),Math.toRadians(pitch),Math.toRadians(yaw))));
+        pipeline(pipeline);driverMode(driver);
+    }
+    @Override public void update(double now,double heading,double yawRate,Consumer<Measurement> sink) {
+        var unread=camera.getAllUnreadResults();
+        if(latestFrameOnly&&!unread.isEmpty())unread=java.util.List.of(unread.stream().max(java.util.Comparator.comparingDouble(org.photonvision.targeting.PhotonPipelineResult::getTimestampSeconds)).orElseThrow());
+        for(var result:unread) {
+            if(result.getTimestampSeconds()<=lastFrame)continue;
+            lastFrame=result.getTimestampSeconds();target=result.hasTargets();latency=result.metadata.getLatencyMillis();
+            tags.clear();for(var t:result.getTargets())tags.putIfAbsent(t.getFiducialId(),new Tag(t.getYaw(),t.getArea()));
+            if(!target)continue;
+            var best=result.getBestTarget();yaw=best.getYaw();pitch=best.getPitch();area=best.getArea();id=best.getFiducialId();distance=best.getBestCameraToTarget().getTranslation().getNorm();
+            estimator.addHeadingData(now,Rotation2d.fromDegrees(heading));
+            var estimate=estimator.estimateCoprocMultiTagPose(result);
+            if(estimate.isEmpty())estimate=estimator.estimateLowestAmbiguityPose(result);
+            if(estimate.isPresent()) {
+                var e=estimate.get();pose=e.estimatedPose;poseFrame=e.timestampSeconds;
+                double avg=e.targetsUsed.stream().mapToDouble(t->t.getBestCameraToTarget().getTranslation().getNorm()).average().orElse(distance);
+                double ambiguity=e.targetsUsed.stream().mapToDouble(t->t.getPoseAmbiguity()).max().orElse(-1);
+                sink.accept(new Measurement(e.estimatedPose,e.timestampSeconds,e.targetsUsed.size(),ambiguity,avg));
+            }
+        }
+    }
+    @Override public boolean connected() { return camera.isConnected(); }
+    @Override public void pipeline(int index) { camera.setPipelineIndex(index); }
+    @Override public void driverMode(boolean value) { camera.setDriverMode(value); }
+    @Override public void led(String mode) { camera.setLED(switch(mode){case "OFF"->VisionLEDMode.kOff;case "ON"->VisionLEDMode.kOn;case "BLINK"->VisionLEDMode.kBlink;default->VisionLEDMode.kDefault;}); }
+}

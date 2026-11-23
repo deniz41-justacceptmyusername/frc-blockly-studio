@@ -1,0 +1,30 @@
+{
+  "name": "frc-blockly-studio",
+  "version": "3.2.0",
+  "private": true,
+  "description": "Offline Blockly editor for FRC robots, exporting configurable WPILib 2026 Java projects.",
+  "license": "MIT",
+  "author": "Deniz",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deniz41-justacceptmyusername/frc-blockly-studio.git"
+  },
+  "homepage": "https://github.com/deniz41-justacceptmyusername/frc-blockly-studio#readme",
+  "bugs": {
+    "url": "https://github.com/deniz41-justacceptmyusername/frc-blockly-studio/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node tests-v3/browser.cjs",
+    "test:basic": "node tests-v3/basic-blocks.cjs",
+    "test:regression": "node tests-v3/legacy-browser.cjs",
+    "test:integration": "node tests-v3/integration-browser.cjs",
+    "test:java": "python tests-v3/run_java.py --suite all",
+    "sync:templates": "python scripts/sync-templates.py"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

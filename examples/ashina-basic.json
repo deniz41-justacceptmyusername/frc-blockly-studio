@@ -1,0 +1,1612 @@
+{
+  "schemaVersion": 3,
+  "integrations": {
+    "cameras": [
+      {
+        "id": "photon",
+        "kind": "photonvision",
+        "name": "Camera_Module_v3",
+        "enabled": true,
+        "pipeline": 0,
+        "driverMode": false,
+        "poseFusion": true,
+        "megaTag2": true,
+        "x": -0.2,
+        "y": 0,
+        "z": 0.1,
+        "roll": 0,
+        "pitch": -15,
+        "yaw": 180,
+        "latestFrameOnly": true
+      },
+      {
+        "id": "driverUSB",
+        "kind": "usb",
+        "name": "0",
+        "enabled": true,
+        "pipeline": 0,
+        "driverMode": false,
+        "poseFusion": false,
+        "megaTag2": true,
+        "x": 0.25,
+        "y": 0,
+        "z": 0.5,
+        "roll": 0,
+        "pitch": 0,
+        "yaw": 0,
+        "realOnly": true
+      }
+    ],
+    "field": "k2026RebuiltAndymark",
+    "vision": {
+      "maxAge": 0.25,
+      "maxAmbiguity": 0.2,
+      "maxDistance": 6,
+      "maxZ": 0.4,
+      "maxJump": 3,
+      "stdXY": 0.7,
+      "stdHeading": 999999,
+      "maxYawRate": 540,
+      "fusionMode": "freshness"
+    },
+    "pathplanner": {
+      "enabled": true,
+      "translationP": 5,
+      "rotationP": 5,
+      "massKg": 50,
+      "moi": 6,
+      "friction": 1.1,
+      "motor": "krakenx60",
+      "motorsPerModule": 1,
+      "events": [
+        {
+          "name": "intake opening",
+          "methodPath": "IntakeSubsystem.getdown",
+          "duration": 1.5,
+          "stopMethod": "IntakeSubsystem.backStop"
+        },
+        {
+          "name": "intage begin",
+          "methodPath": "IntakeSubsystem.frontAuto",
+          "duration": 4,
+          "stopMethod": "IntakeSubsystem.frontStop"
+        },
+        {
+          "name": "allign",
+          "methodPath": "SwerveSubsystem.alignAuto",
+          "duration": 0.5,
+          "allowDrive": true
+        },
+        {
+          "name": "shooter komutu",
+          "methodPath": "ShooterSubsystem.shootAuto",
+          "duration": 5,
+          "stopMethod": "ShooterSubsystem.shootStop"
+        }
+      ]
+    },
+    "choreo": {
+      "enabled": false,
+      "translationP": 5,
+      "rotationP": 4
+    },
+    "telemetry": {
+      "enabled": true,
+      "dataLog": true,
+      "elastic": true,
+      "robotModel": "",
+      "publishPeriod": 0.05
+    },
+    "sysid": {
+      "enabled": false,
+      "subsystem": "",
+      "motor": "",
+      "ramp": 1,
+      "step": 4,
+      "timeout": 5
+    },
+    "operator": {
+      "enabled": false,
+      "port": 1
+    },
+    "motion": {
+      "wheelDiameterM": 0.1016,
+      "gearRatio": 6.75,
+      "trackWidthM": 0.6,
+      "wheelBaseM": 0.6,
+      "maxSpeed": 4.5,
+      "maxAngular": 8,
+      "encoders": {},
+      "kP": 1,
+      "kI": 0,
+      "kD": 0,
+      "kS": 0.2,
+      "kV": 2.3
+    },
+    "assets": [
+      {
+        "path": "pathplanner/navgrid.json",
+        "text": "{\"field_size\":{\"x\":16.54,\"y\":8.07},\"nodeSizeMeters\":0.3,\"grid\":[[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],[true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true],[true,true,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,true,true],[true,true,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,true,true,true],[true,true,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,true,true,true,true],[true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true],[true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true],[true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true],[true,true,true,true,true,false,false,false,false,false,false,false,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,true,true,true],[true,true,true,true,true,true,false,false,false,false,false,true,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,true,true],[true,true,true,true,true,true,false,false,false,false,false,true,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,true,true,true,true,true],[true,true,true,true,true,true,false,false,false,false,false,true,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,true,true,false,false,false,false,false,false,true,true,true,true,true,true],[true,true,true,true,true,true,false,false,false,false,false,true,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,true,true,false,false,false,false,false,false,true,true,true,true,true,true],[true,true,true,true,true,true,false,false,false,false,false,true,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,true,true,false,false,false,false,false,false,true,true,true,true,true,true],[true,true,true,true,true,false,false,false,false,false,false,true,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,true,true,false,false,false,false,false,false,true,true,true,true,true,true],[true,true,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,true,true,false,false,false,false,false,false,true,true,true,true,true,true],[true,true,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,false,false,false,false,false,false,false,false,true,true,true,true,true],[true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true],[true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true],[true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true],[true,true,true,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,true,true],[true,true,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,true,true],[true,true,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,true,true],[true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true],[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true]]}"
+      },
+      {
+        "path": "pathplanner/settings.json",
+        "text": "{\n  \"robotWidth\": 0.9,\n  \"robotLength\": 0.9,\n  \"holonomicMode\": true,\n  \"pathFolders\": [],\n  \"autoFolders\": [],\n  \"defaultMaxVel\": 3.0,\n  \"defaultMaxAccel\": 3.0,\n  \"defaultMaxAngVel\": 540.0,\n  \"defaultMaxAngAccel\": 720.0,\n  \"defaultNominalVoltage\": 12.0,\n  \"robotMass\": 45.0,\n  \"robotMOI\": 6.883,\n  \"robotTrackwidth\": 0.546,\n  \"driveWheelRadius\": 0.048,\n  \"driveGearing\": 5.143,\n  \"maxDriveSpeed\": 5.45,\n  \"driveMotorType\": \"krakenX60\",\n  \"driveCurrentLimit\": 60.0,\n  \"wheelCOF\": 1.2,\n  \"flModuleX\": 0.273,\n  \"flModuleY\": 0.273,\n  \"frModuleX\": 0.273,\n  \"frModuleY\": -0.273,\n  \"blModuleX\": -0.273,\n  \"blModuleY\": 0.273,\n  \"brModuleX\": -0.273,\n  \"brModuleY\": -0.273,\n  \"bumperOffsetX\": 0.0,\n  \"bumperOffsetY\": 0.0,\n  \"robotFeatures\": []\n}"
+      },
+      {
+        "path": "pathplanner/autos/Auto command.auto",
+        "text": "{\n  \"version\": \"2025.0\",\n  \"command\": {\n    \"type\": \"sequential\",\n    \"data\": {\n      \"commands\": [\n        {\n          \"type\": \"path\",\n          \"data\": {\n            \"pathName\": \"New New Path\"\n          }\n        }\n      ]\n    }\n  },\n  \"resetOdom\": true,\n  \"folder\": null,\n  \"choreoAuto\": false\n}"
+      },
+      {
+        "path": "pathplanner/autos/New New Auto.auto",
+        "text": "{\n  \"version\": \"2025.0\",\n  \"command\": {\n    \"type\": \"sequential\",\n    \"data\": {\n      \"commands\": [\n        {\n          \"type\": \"path\",\n          \"data\": {\n            \"pathName\": \"Copy of BS\"\n          }\n        }\n      ]\n    }\n  },\n  \"resetOdom\": true,\n  \"folder\": null,\n  \"choreoAuto\": false\n}"
+      },
+      {
+        "path": "pathplanner/autos/New New New Auto.auto",
+        "text": "{\n  \"version\": \"2025.0\",\n  \"command\": {\n    \"type\": \"sequential\",\n    \"data\": {\n      \"commands\": [\n        {\n          \"type\": \"path\",\n          \"data\": {\n            \"pathName\": \"BSR\"\n          }\n        },\n        {\n          \"type\": \"named\",\n          \"data\": {\n            \"name\": \"allign\"\n          }\n        },\n        {\n          \"type\": \"named\",\n          \"data\": {\n            \"name\": \"shooter komutu\"\n          }\n        },\n        {\n          \"type\": \"path\",\n          \"data\": {\n            \"pathName\": \"ASR\"\n          }\n        }\n      ]\n    }\n  },\n  \"resetOdom\": true,\n  \"folder\": null,\n  \"choreoAuto\": false\n}"
+      },
+      {
+        "path": "pathplanner/paths/AS.path",
+        "text": "{\n  \"version\": \"2025.0\",\n  \"waypoints\": [\n    {\n      \"anchor\": {\n        \"x\": 2.4346647646219686,\n        \"y\": 6.965606276747503\n      },\n      \"prevControl\": null,\n      \"nextControl\": {\n        \"x\": 1.8265477888699255,\n        \"y\": 6.305734664768586\n      },\n      \"isLocked\": false,\n      \"linkedName\": \"shattır\"\n    },\n    {\n      \"anchor\": {\n        \"x\": 0.8949643366619111,\n        \"y\": 5.982268188302426\n      },\n      \"prevControl\": {\n        \"x\": 1.5160199714693299,\n        \"y\": 6.4092439372325245\n      },\n      \"nextControl\": null,\n      \"isLocked\": false,\n      \"linkedName\": null\n    }\n  ],\n  \"rotationTargets\": [],\n  \"constraintZones\": [],\n  \"pointTowardsZones\": [],\n  \"eventMarkers\": [],\n  \"globalConstraints\": {\n    \"maxVelocity\": 1.0,\n    \"maxAcceleration\": 3.0,\n    \"maxAngularVelocity\": 540.0,\n    \"maxAngularAcceleration\": 720.0,\n    \"nominalVoltage\": 12.0,\n    \"unlimited\": false\n  },\n  \"goalEndState\": {\n    \"velocity\": 0,\n    \"rotation\": -177.2072976342867\n  },\n  \"reversed\": false,\n  \"folder\": null,\n  \"idealStartingState\": {\n    \"velocity\": 0,\n    \"rotation\": 127.87498365109816\n  },\n  \"useDefaultConstraints\": false\n}"
+      },
+      {
+        "path": "pathplanner/paths/ASR.path",
+        "text": "{\n  \"version\": \"2025.0\",\n  \"waypoints\": [\n    {\n      \"anchor\": {\n        \"x\": 14.092396576319542,\n        \"y\": 2.2429957203994295\n      },\n      \"prevControl\": null,\n      \"nextControl\": {\n        \"x\": 14.234721825962907,\n        \"y\": 0.9232524964336664\n      },\n      \"isLocked\": false,\n      \"linkedName\": null\n    },\n    {\n      \"anchor\": {\n        \"x\": 15.877931526390867,\n        \"y\": 2.0618544935805994\n      },\n      \"prevControl\": {\n        \"x\": 15.580342368045645,\n        \"y\": 1.699572039942939\n      },\n      \"nextControl\": null,\n      \"isLocked\": false,\n      \"linkedName\": null\n    }\n  ],\n  \"rotationTargets\": [],\n  \"constraintZones\": [],\n  \"pointTowardsZones\": [],\n  \"eventMarkers\": [],\n  \"globalConstraints\": {\n    \"maxVelocity\": 3.0,\n    \"maxAcceleration\": 3.0,\n    \"maxAngularVelocity\": 540.0,\n    \"maxAngularAcceleration\": 720.0,\n    \"nominalVoltage\": 12.0,\n    \"unlimited\": false\n  },\n  \"goalEndState\": {\n    \"velocity\": 0,\n    \"rotation\": 0.0\n  },\n  \"reversed\": false,\n  \"folder\": null,\n  \"idealStartingState\": {\n    \"velocity\": 0,\n    \"rotation\": -41.42366562500261\n  },\n  \"useDefaultConstraints\": true\n}"
+      },
+      {
+        "path": "pathplanner/paths/BS.path",
+        "text": "{\n  \"version\": \"2025.0\",\n  \"waypoints\": [\n    {\n      \"anchor\": {\n        \"x\": 3.1721683309557767,\n        \"y\": 5.529415121255349\n      },\n      \"prevControl\": null,\n      \"nextControl\": {\n        \"x\": 6.406833095577744,\n        \"y\": 4.714279600570615\n      },\n      \"isLocked\": false,\n      \"linkedName\": null\n    },\n    {\n      \"anchor\": {\n        \"x\": 7.661883024249244,\n        \"y\": 7.120870185445212\n      },\n      \"prevControl\": {\n        \"x\": 6.405166848687433,\n        \"y\": 7.120870185445212\n      },\n      \"nextControl\": {\n        \"x\": 7.911883024249244,\n        \"y\": 7.120870185445212\n      },\n      \"isLocked\": false,\n      \"linkedName\": null\n    },\n    {\n      \"anchor\": {\n        \"x\": 7.299600570606746,\n        \"y\": 1.68663338087846\n      },\n      \"prevControl\": {\n        \"x\": 8.542324753449536,\n        \"y\": 0.992169866936901\n      },\n      \"nextControl\": {\n        \"x\": 5.100028530663807,\n        \"y\": 2.9158059914348073\n      },\n      \"isLocked\": false,\n      \"linkedName\": null\n    },\n    {\n      \"anchor\": {\n        \"x\": 2.4346647646219686,\n        \"y\": 6.965606276747503\n      },\n      \"prevControl\": {\n        \"x\": 3.4309415121255356,\n        \"y\": 7.082054208273894\n      },\n      \"nextControl\": null,\n      \"isLocked\": false,\n      \"linkedName\": \"shattır\"\n    }\n  ],\n  \"rotationTargets\": [\n    {\n      \"waypointRelativePos\": 1,\n      \"rotationDegrees\": -87.70938995736147\n    }\n  ],\n  \"constraintZones\": [],\n  \"pointTowardsZones\": [],\n  \"eventMarkers\": [\n    {\n      \"name\": \"intake opening\",\n      \"waypointRelativePos\": 0.40354974311067504,\n      \"endWaypointRelativePos\": null,\n      \"command\": null\n    },\n    {\n      \"name\": \"intage begin\",\n      \"waypointRelativePos\": 0.9920597851470819,\n      \"endWaypointRelativePos\": null,\n      \"command\": null\n    }\n  ],\n  \"globalConstraints\": {\n    \"maxVelocity\": 2.0,\n    \"maxAcceleration\": 2.0,\n    \"maxAngularVelocity\": 540.0,\n    \"maxAngularAcceleration\": 720.0,\n    \"nominalVoltage\": 12.0,\n    \"unlimited\": false\n  },\n  \"goalEndState\": {\n    \"velocity\": 0,\n    \"rotation\": 127.87498365109816\n  },\n  \"reversed\": false,\n  \"folder\": null,\n  \"idealStartingState\": {\n    \"velocity\": 0,\n    \"rotation\": 0.0\n  },\n  \"useDefaultConstraints\": false\n}"
+      },
+      {
+        "path": "pathplanner/paths/BSR.path",
+        "text": "{\n  \"version\": \"2025.0\",\n  \"waypoints\": [\n    {\n      \"anchor\": {\n        \"x\": 13.31607703281027,\n        \"y\": 2.4888302425106996\n      },\n      \"prevControl\": null,\n      \"nextControl\": {\n        \"x\": 12.099843081312411,\n        \"y\": 2.889928673323824\n      },\n      \"isLocked\": false,\n      \"linkedName\": null\n    },\n    {\n      \"anchor\": {\n        \"x\": 8.477018544935806,\n        \"y\": 2.3076890156918695\n      },\n      \"prevControl\": {\n        \"x\": 8.617909037963091,\n        \"y\": -0.017004119258324124\n      },\n      \"nextControl\": {\n        \"x\": 8.295877318116974,\n        \"y\": 5.296519258202568\n      },\n      \"isLocked\": false,\n      \"linkedName\": null\n    },\n    {\n      \"anchor\": {\n        \"x\": 14.17002853067047,\n        \"y\": 2.191241084165479\n      },\n      \"prevControl\": {\n        \"x\": 10.197860199714691,\n        \"y\": 2.3723823109843103\n      },\n      \"nextControl\": null,\n      \"isLocked\": false,\n      \"linkedName\": null\n    }\n  ],\n  \"rotationTargets\": [\n    {\n      \"waypointRelativePos\": 0.8312999579301692,\n      \"rotationDegrees\": 89.99063819784367\n    }\n  ],\n  \"constraintZones\": [],\n  \"pointTowardsZones\": [],\n  \"eventMarkers\": [],\n  \"globalConstraints\": {\n    \"maxVelocity\": 3.0,\n    \"maxAcceleration\": 3.0,\n    \"maxAngularVelocity\": 540.0,\n    \"maxAngularAcceleration\": 720.0,\n    \"nominalVoltage\": 12.0,\n    \"unlimited\": false\n  },\n  \"goalEndState\": {\n    \"velocity\": 0,\n    \"rotation\": -49.18491612511838\n  },\n  \"reversed\": false,\n  \"folder\": null,\n  \"idealStartingState\": {\n    \"velocity\": 0,\n    \"rotation\": 180.0\n  },\n  \"useDefaultConstraints\": true\n}"
+      },
+      {
+        "path": "pathplanner/paths/Copy of BS.path",
+        "text": "{\n  \"version\": \"2025.0\",\n  \"waypoints\": [\n    {\n      \"anchor\": {\n        \"x\": 3.1721683309557767,\n        \"y\": 5.568231098430813\n      },\n      \"prevControl\": null,\n      \"nextControl\": {\n        \"x\": 6.406833095577744,\n        \"y\": 4.753095577746079\n      },\n      \"isLocked\": false,\n      \"linkedName\": null\n    },\n    {\n      \"anchor\": {\n        \"x\": 6.225691868758916,\n        \"y\": 6.551569186875891\n      },\n      \"prevControl\": {\n        \"x\": 5.627177177717561,\n        \"y\": 6.2633954467448705\n      },\n      \"nextControl\": {\n        \"x\": 6.575035663338089,\n        \"y\": 6.719771754636233\n      },\n      \"isLocked\": false,\n      \"linkedName\": null\n    },\n    {\n      \"anchor\": {\n        \"x\": 7.661883024249244,\n        \"y\": 7.120870185445212\n      },\n      \"prevControl\": {\n        \"x\": 6.405166848687433,\n        \"y\": 7.120870185445212\n      },\n      \"nextControl\": {\n        \"x\": 7.911883024249244,\n        \"y\": 7.120870185445212\n      },\n      \"isLocked\": false,\n      \"linkedName\": null\n    },\n    {\n      \"anchor\": {\n        \"x\": 7.273723252496433,\n        \"y\": 4.559015691868759\n      },\n      \"prevControl\": {\n        \"x\": 7.390869729752961,\n        \"y\": 3.1402416895397227\n      },\n      \"nextControl\": {\n        \"x\": 7.157275320970041,\n        \"y\": 5.969329529243937\n      },\n      \"isLocked\": false,\n      \"linkedName\": null\n    },\n    {\n      \"anchor\": {\n        \"x\": 3.1721683309557767,\n        \"y\": 5.839942938659058\n      },\n      \"prevControl\": {\n        \"x\": 4.153253821659105,\n        \"y\": 5.629710333508339\n      },\n      \"nextControl\": {\n        \"x\": 2.9277177274364243,\n        \"y\": 5.892325210841777\n      },\n      \"isLocked\": false,\n      \"linkedName\": null\n    },\n    {\n      \"anchor\": {\n        \"x\": 2.4346647646219686,\n        \"y\": 6.965606276747503\n      },\n      \"prevControl\": {\n        \"x\": 3.0815977175463622,\n        \"y\": 6.370427960057061\n      },\n      \"nextControl\": null,\n      \"isLocked\": false,\n      \"linkedName\": \"shattır\"\n    }\n  ],\n  \"rotationTargets\": [\n    {\n      \"waypointRelativePos\": 0.5,\n      \"rotationDegrees\": -55.04932726081864\n    },\n    {\n      \"waypointRelativePos\": 2.0,\n      \"rotationDegrees\": -87.70938995736147\n    }\n  ],\n  \"constraintZones\": [],\n  \"pointTowardsZones\": [],\n  \"eventMarkers\": [\n    {\n      \"name\": \"intake opening\",\n      \"waypointRelativePos\": 0.8,\n      \"endWaypointRelativePos\": null,\n      \"command\": null\n    },\n    {\n      \"name\": \"intage begin\",\n      \"waypointRelativePos\": 2.0,\n      \"endWaypointRelativePos\": null,\n      \"command\": null\n    }\n  ],\n  \"globalConstraints\": {\n    \"maxVelocity\": 2.0,\n    \"maxAcceleration\": 2.0,\n    \"maxAngularVelocity\": 540.0,\n    \"maxAngularAcceleration\": 720.0,\n    \"nominalVoltage\": 12.0,\n    \"unlimited\": false\n  },\n  \"goalEndState\": {\n    \"velocity\": 0,\n    \"rotation\": 127.87498365109816\n  },\n  \"reversed\": false,\n  \"folder\": null,\n  \"idealStartingState\": {\n    \"velocity\": 0,\n    \"rotation\": 0.0\n  },\n  \"useDefaultConstraints\": false\n}"
+      },
+      {
+        "path": "pathplanner/paths/New New Path.path",
+        "text": "{\n  \"version\": \"2025.0\",\n  \"waypoints\": [\n    {\n      \"anchor\": {\n        \"x\": 12.966733238231097,\n        \"y\": 2.747603423680457\n      },\n      \"prevControl\": null,\n      \"nextControl\": {\n        \"x\": 11.85924852397865,\n        \"y\": 2.747603423680457\n      },\n      \"isLocked\": false,\n      \"linkedName\": null\n    },\n    {\n      \"anchor\": {\n        \"x\": 15.67091298145506,\n        \"y\": 3.148701854493581\n      },\n      \"prevControl\": {\n        \"x\": 15.07573466476462,\n        \"y\": 3.2263338088445086\n      },\n      \"nextControl\": {\n        \"x\": 16.00375143798404,\n        \"y\": 3.1052881427724097\n      },\n      \"isLocked\": false,\n      \"linkedName\": null\n    },\n    {\n      \"anchor\": {\n        \"x\": 15.890870185449355,\n        \"y\": 1.0397004279600572\n      },\n      \"prevControl\": {\n        \"x\": 15.722667617689012,\n        \"y\": 2.074793152639087\n      },\n      \"nextControl\": null,\n      \"isLocked\": false,\n      \"linkedName\": null\n    }\n  ],\n  \"rotationTargets\": [],\n  \"constraintZones\": [],\n  \"pointTowardsZones\": [],\n  \"eventMarkers\": [],\n  \"globalConstraints\": {\n    \"maxVelocity\": 1.5,\n    \"maxAcceleration\": 3.0,\n    \"maxAngularVelocity\": 540.0,\n    \"maxAngularAcceleration\": 720.0,\n    \"nominalVoltage\": 12.0,\n    \"unlimited\": false\n  },\n  \"goalEndState\": {\n    \"velocity\": 0,\n    \"rotation\": 0.0\n  },\n  \"reversed\": false,\n  \"folder\": null,\n  \"idealStartingState\": {\n    \"velocity\": 0,\n    \"rotation\": 0.0\n  },\n  \"useDefaultConstraints\": false\n}"
+      },
+      {
+        "path": "pathplanner/paths/New Path.path",
+        "text": "{\n  \"version\": \"2025.0\",\n  \"waypoints\": [\n    {\n      \"anchor\": {\n        \"x\": 3.2368616262482157,\n        \"y\": 5.6070470756062765\n      },\n      \"prevControl\": null,\n      \"nextControl\": {\n        \"x\": 6.274732130710149,\n        \"y\": 5.618520334866776\n      },\n      \"isLocked\": false,\n      \"linkedName\": null\n    },\n    {\n      \"anchor\": {\n        \"x\": 7.7265763195435095,\n        \"y\": 5.6070470756062765\n      },\n      \"prevControl\": {\n        \"x\": 7.3517260918647045,\n        \"y\": 6.018196409535519\n      },\n      \"nextControl\": {\n        \"x\": 7.948461879012507,\n        \"y\": 5.36367494122314\n      },\n      \"isLocked\": false,\n      \"linkedName\": null\n    },\n    {\n      \"anchor\": {\n        \"x\": 7.7265763195435095,\n        \"y\": 4.74015691868759\n      },\n      \"prevControl\": {\n        \"x\": 7.7815231953658275,\n        \"y\": 4.9840438614241105\n      },\n      \"nextControl\": null,\n      \"isLocked\": false,\n      \"linkedName\": null\n    }\n  ],\n  \"rotationTargets\": [\n    {\n      \"waypointRelativePos\": 0.32649842271293333,\n      \"rotationDegrees\": -38.66940753443875\n    }\n  ],\n  \"constraintZones\": [],\n  \"pointTowardsZones\": [],\n  \"eventMarkers\": [],\n  \"globalConstraints\": {\n    \"maxVelocity\": 3.0,\n    \"maxAcceleration\": 3.0,\n    \"maxAngularVelocity\": 540.0,\n    \"maxAngularAcceleration\": 720.0,\n    \"nominalVoltage\": 12.0,\n    \"unlimited\": false\n  },\n  \"goalEndState\": {\n    \"velocity\": 0,\n    \"rotation\": 0.0\n  },\n  \"reversed\": false,\n  \"folder\": null,\n  \"idealStartingState\": {\n    \"velocity\": 0,\n    \"rotation\": 0.0\n  },\n  \"useDefaultConstraints\": true\n}"
+      }
+    ],
+    "autonomousMode": "pathplanner",
+    "selectedAuto": "Auto command",
+    "customSources": [],
+    "customVendors": [],
+    "simulationStart": {
+      "x": 3,
+      "y": 3,
+      "angle": 0
+    },
+    "pinnedVendors": [
+      {
+        "fileName": "PathplannerLib-2026.1.2.json",
+        "name": "PathplannerLib",
+        "version": "2026.1.2",
+        "uuid": "1b42324f-17c6-4875-8e77-1c312bc8c786",
+        "frcYear": "2026",
+        "mavenUrls": [
+          "https://3015rangerrobotics.github.io/pathplannerlib/repo"
+        ],
+        "jsonUrl": "https://3015rangerrobotics.github.io/pathplannerlib/PathplannerLib.json",
+        "javaDependencies": [
+          {
+            "groupId": "com.pathplanner.lib",
+            "artifactId": "PathplannerLib-java",
+            "version": "2026.1.2"
+          }
+        ],
+        "jniDependencies": [],
+        "cppDependencies": [
+          {
+            "groupId": "com.pathplanner.lib",
+            "artifactId": "PathplannerLib-cpp",
+            "version": "2026.1.2",
+            "libName": "PathplannerLib",
+            "headerClassifier": "headers",
+            "sharedLibrary": false,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "osxuniversal",
+              "linuxathena",
+              "linuxarm32",
+              "linuxarm64"
+            ]
+          }
+        ]
+      },
+      {
+        "fileName": "Phoenix6-26.1.3.json",
+        "name": "CTRE-Phoenix (v6)",
+        "version": "26.1.3",
+        "frcYear": "2026",
+        "uuid": "e995de00-2c64-4df5-8831-c1441420ff19",
+        "mavenUrls": [
+          "https://maven.ctr-electronics.com/release/"
+        ],
+        "jsonUrl": "https://maven.ctr-electronics.com/release/com/ctre/phoenix6/latest/Phoenix6-frc2026-latest.json",
+        "conflictsWith": [
+          {
+            "uuid": "e7900d8d-826f-4dca-a1ff-182f658e98af",
+            "errorMessage": "Users can not have both the replay and regular Phoenix 6 vendordeps in their robot program.",
+            "offlineFileName": "Phoenix6-replay-frc2026-latest.json"
+          }
+        ],
+        "javaDependencies": [
+          {
+            "groupId": "com.ctre.phoenix6",
+            "artifactId": "wpiapi-java",
+            "version": "26.1.3"
+          }
+        ],
+        "jniDependencies": [
+          {
+            "groupId": "com.ctre.phoenix6",
+            "artifactId": "api-cpp",
+            "version": "26.1.3",
+            "isJar": false,
+            "skipInvalidPlatforms": true,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "linuxathena"
+            ],
+            "simMode": "hwsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6",
+            "artifactId": "tools",
+            "version": "26.1.3",
+            "isJar": false,
+            "skipInvalidPlatforms": true,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "linuxathena"
+            ],
+            "simMode": "hwsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "api-cpp-sim",
+            "version": "26.1.3",
+            "isJar": false,
+            "skipInvalidPlatforms": true,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "tools-sim",
+            "version": "26.1.3",
+            "isJar": false,
+            "skipInvalidPlatforms": true,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simTalonSRX",
+            "version": "26.1.3",
+            "isJar": false,
+            "skipInvalidPlatforms": true,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simVictorSPX",
+            "version": "26.1.3",
+            "isJar": false,
+            "skipInvalidPlatforms": true,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simPigeonIMU",
+            "version": "26.1.3",
+            "isJar": false,
+            "skipInvalidPlatforms": true,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simProTalonFX",
+            "version": "26.1.3",
+            "isJar": false,
+            "skipInvalidPlatforms": true,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simProTalonFXS",
+            "version": "26.1.3",
+            "isJar": false,
+            "skipInvalidPlatforms": true,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simProCANcoder",
+            "version": "26.1.3",
+            "isJar": false,
+            "skipInvalidPlatforms": true,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simProPigeon2",
+            "version": "26.1.3",
+            "isJar": false,
+            "skipInvalidPlatforms": true,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simProCANrange",
+            "version": "26.1.3",
+            "isJar": false,
+            "skipInvalidPlatforms": true,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simProCANdi",
+            "version": "26.1.3",
+            "isJar": false,
+            "skipInvalidPlatforms": true,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simProCANdle",
+            "version": "26.1.3",
+            "isJar": false,
+            "skipInvalidPlatforms": true,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          }
+        ],
+        "cppDependencies": [
+          {
+            "groupId": "com.ctre.phoenix6",
+            "artifactId": "wpiapi-cpp",
+            "version": "26.1.3",
+            "libName": "CTRE_Phoenix6_WPI",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "linuxathena"
+            ],
+            "simMode": "hwsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6",
+            "artifactId": "tools",
+            "version": "26.1.3",
+            "libName": "CTRE_PhoenixTools",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "linuxathena"
+            ],
+            "simMode": "hwsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "wpiapi-cpp-sim",
+            "version": "26.1.3",
+            "libName": "CTRE_Phoenix6_WPISim",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "tools-sim",
+            "version": "26.1.3",
+            "libName": "CTRE_PhoenixTools_Sim",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simTalonSRX",
+            "version": "26.1.3",
+            "libName": "CTRE_SimTalonSRX",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simVictorSPX",
+            "version": "26.1.3",
+            "libName": "CTRE_SimVictorSPX",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simPigeonIMU",
+            "version": "26.1.3",
+            "libName": "CTRE_SimPigeonIMU",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simProTalonFX",
+            "version": "26.1.3",
+            "libName": "CTRE_SimProTalonFX",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simProTalonFXS",
+            "version": "26.1.3",
+            "libName": "CTRE_SimProTalonFXS",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simProCANcoder",
+            "version": "26.1.3",
+            "libName": "CTRE_SimProCANcoder",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simProPigeon2",
+            "version": "26.1.3",
+            "libName": "CTRE_SimProPigeon2",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simProCANrange",
+            "version": "26.1.3",
+            "libName": "CTRE_SimProCANrange",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simProCANdi",
+            "version": "26.1.3",
+            "libName": "CTRE_SimProCANdi",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          },
+          {
+            "groupId": "com.ctre.phoenix6.sim",
+            "artifactId": "simProCANdle",
+            "version": "26.1.3",
+            "libName": "CTRE_SimProCANdle",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxx86-64",
+              "linuxarm64",
+              "osxuniversal"
+            ],
+            "simMode": "swsim"
+          }
+        ]
+      },
+      {
+        "fileName": "photonlib.json",
+        "name": "photonlib",
+        "version": "v2026.3.2",
+        "uuid": "515fe07e-bfc6-11fa-b3de-0242ac130004",
+        "frcYear": "2026",
+        "mavenUrls": [
+          "https://maven.photonvision.org/repository/internal",
+          "https://maven.photonvision.org/repository/snapshots"
+        ],
+        "jsonUrl": "https://maven.photonvision.org/repository/internal/org/photonvision/photonlib-json/1.0/photonlib-json-1.0.json",
+        "jniDependencies": [
+          {
+            "groupId": "org.photonvision",
+            "artifactId": "photontargeting-cpp",
+            "version": "v2026.3.2",
+            "skipInvalidPlatforms": true,
+            "isJar": false,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxathena",
+              "linuxx86-64",
+              "osxuniversal"
+            ]
+          }
+        ],
+        "cppDependencies": [
+          {
+            "groupId": "org.photonvision",
+            "artifactId": "photonlib-cpp",
+            "version": "v2026.3.2",
+            "libName": "photonlib",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxathena",
+              "linuxx86-64",
+              "osxuniversal"
+            ]
+          },
+          {
+            "groupId": "org.photonvision",
+            "artifactId": "photontargeting-cpp",
+            "version": "v2026.3.2",
+            "libName": "photontargeting",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxathena",
+              "linuxx86-64",
+              "osxuniversal"
+            ]
+          }
+        ],
+        "javaDependencies": [
+          {
+            "groupId": "org.photonvision",
+            "artifactId": "photonlib-java",
+            "version": "v2026.3.2"
+          },
+          {
+            "groupId": "org.photonvision",
+            "artifactId": "photontargeting-java",
+            "version": "v2026.3.2"
+          }
+        ]
+      },
+      {
+        "fileName": "REVLib.json",
+        "name": "REVLib",
+        "version": "2026.0.5",
+        "frcYear": "2026",
+        "uuid": "3f48eb8c-50fe-43a6-9cb7-44c86353c4cb",
+        "mavenUrls": [
+          "https://maven.revrobotics.com/"
+        ],
+        "jsonUrl": "https://software-metadata.revrobotics.com/REVLib-2026.json",
+        "javaDependencies": [
+          {
+            "groupId": "com.revrobotics.frc",
+            "artifactId": "REVLib-java",
+            "version": "2026.0.5"
+          }
+        ],
+        "jniDependencies": [
+          {
+            "groupId": "com.revrobotics.frc",
+            "artifactId": "REVLib-driver",
+            "version": "2026.0.5",
+            "skipInvalidPlatforms": true,
+            "isJar": false,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxarm64",
+              "linuxx86-64",
+              "linuxathena",
+              "linuxarm32",
+              "osxuniversal"
+            ]
+          },
+          {
+            "groupId": "com.revrobotics.frc",
+            "artifactId": "RevLibBackendDriver",
+            "version": "2026.0.5",
+            "skipInvalidPlatforms": true,
+            "isJar": false,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxarm64",
+              "linuxx86-64",
+              "linuxathena",
+              "linuxarm32",
+              "osxuniversal"
+            ]
+          },
+          {
+            "groupId": "com.revrobotics.frc",
+            "artifactId": "RevLibWpiBackendDriver",
+            "version": "2026.0.5",
+            "skipInvalidPlatforms": true,
+            "isJar": false,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxarm64",
+              "linuxx86-64",
+              "linuxathena",
+              "linuxarm32",
+              "osxuniversal"
+            ]
+          }
+        ],
+        "cppDependencies": [
+          {
+            "groupId": "com.revrobotics.frc",
+            "artifactId": "REVLib-cpp",
+            "version": "2026.0.5",
+            "libName": "REVLib",
+            "headerClassifier": "headers",
+            "sharedLibrary": false,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxarm64",
+              "linuxx86-64",
+              "linuxathena",
+              "linuxarm32",
+              "osxuniversal"
+            ]
+          },
+          {
+            "groupId": "com.revrobotics.frc",
+            "artifactId": "REVLib-driver",
+            "version": "2026.0.5",
+            "libName": "REVLibDriver",
+            "headerClassifier": "headers",
+            "sharedLibrary": false,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxarm64",
+              "linuxx86-64",
+              "linuxathena",
+              "linuxarm32",
+              "osxuniversal"
+            ]
+          },
+          {
+            "groupId": "com.revrobotics.frc",
+            "artifactId": "RevLibBackendDriver",
+            "version": "2026.0.5",
+            "libName": "BackendDriver",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxarm64",
+              "linuxx86-64",
+              "linuxathena",
+              "linuxarm32",
+              "osxuniversal"
+            ]
+          },
+          {
+            "groupId": "com.revrobotics.frc",
+            "artifactId": "RevLibWpiBackendDriver",
+            "version": "2026.0.5",
+            "libName": "REVLibWpi",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxarm64",
+              "linuxx86-64",
+              "linuxathena",
+              "linuxarm32",
+              "osxuniversal"
+            ]
+          }
+        ]
+      },
+      {
+        "fileName": "Studica.json",
+        "name": "Studica",
+        "version": "2026.0.0",
+        "frcYear": "2026",
+        "uuid": "cb311d09-36e9-4143-a032-55bb2b94443b",
+        "mavenUrls": [
+          "https://dev.studica.com/maven/release/2026/"
+        ],
+        "jsonUrl": "https://dev.studica.com/maven/release/2026/json/Studica-2026.0.0.json",
+        "javaDependencies": [
+          {
+            "groupId": "com.studica.frc",
+            "artifactId": "Studica-java",
+            "version": "2026.0.0"
+          }
+        ],
+        "jniDependencies": [
+          {
+            "groupId": "com.studica.frc",
+            "artifactId": "Studica-driver",
+            "version": "2026.0.0",
+            "skipInvalidPlatforms": true,
+            "isJar": false,
+            "validPlatforms": [
+              "windowsx86-64",
+              "linuxarm64",
+              "linuxx86-64",
+              "linuxathena",
+              "linuxarm32",
+              "osxuniversal"
+            ]
+          }
+        ],
+        "cppDependencies": [
+          {
+            "groupId": "com.studica.frc",
+            "artifactId": "Studica-cpp",
+            "version": "2026.0.0",
+            "libName": "Studica",
+            "headerClassifier": "headers",
+            "sharedLibrary": false,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxarm64",
+              "linuxx86-64",
+              "linuxathena",
+              "linuxarm32",
+              "osxuniversal"
+            ]
+          },
+          {
+            "groupId": "com.studica.frc",
+            "artifactId": "Studica-driver",
+            "version": "2026.0.0",
+            "libName": "StudicaDriver",
+            "headerClassifier": "headers",
+            "sharedLibrary": false,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "windowsx86-64",
+              "linuxarm64",
+              "linuxx86-64",
+              "linuxathena",
+              "linuxarm32",
+              "osxuniversal"
+            ]
+          }
+        ]
+      },
+      {
+        "fileName": "ThriftyLib-2026.json",
+        "name": "ThriftyLib",
+        "version": "2026.1.2",
+        "frcYear": "2026",
+        "uuid": "60b2694b-9e6e-4026-81ee-6f167946f4b0",
+        "mavenUrls": [
+          "https://docs.home.thethriftybot.com"
+        ],
+        "jsonUrl": "https://docs.home.thethriftybot.com/ThriftyLib-2026.json",
+        "javaDependencies": [
+          {
+            "groupId": "com.thethriftybot.frc",
+            "artifactId": "ThriftyLib-java",
+            "version": "2026.1.2"
+          }
+        ],
+        "jniDependencies": [],
+        "cppDependencies": []
+      },
+      {
+        "fileName": "WPILibNewCommands.json",
+        "name": "WPILib-New-Commands",
+        "version": "1.0.0",
+        "uuid": "111e20f7-815e-48f8-9dd6-e675ce75b266",
+        "frcYear": "2026",
+        "mavenUrls": [],
+        "jsonUrl": "",
+        "javaDependencies": [
+          {
+            "groupId": "edu.wpi.first.wpilibNewCommands",
+            "artifactId": "wpilibNewCommands-java",
+            "version": "wpilib"
+          }
+        ],
+        "jniDependencies": [],
+        "cppDependencies": [
+          {
+            "groupId": "edu.wpi.first.wpilibNewCommands",
+            "artifactId": "wpilibNewCommands-cpp",
+            "version": "wpilib",
+            "libName": "wpilibNewCommands",
+            "headerClassifier": "headers",
+            "sourcesClassifier": "sources",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+              "linuxsystemcore",
+              "linuxathena",
+              "linuxarm32",
+              "linuxarm64",
+              "windowsx86-64",
+              "windowsx86",
+              "linuxx86-64",
+              "osxuniversal"
+            ]
+          }
+        ]
+      },
+      {
+        "fileName": "yagsl-2026.2.3.1.json",
+        "name": "YAGSL",
+        "version": "2026.2.3.1",
+        "frcYear": "2026",
+        "uuid": "1ccce5a4-acd2-4d18-bca3-4b8047188400",
+        "mavenUrls": [
+          "https://yet-another-software-suite.github.io/YAGSL/releases/",
+          "https://repo1.maven.org/maven2"
+        ],
+        "jsonUrl": "https://yet-another-software-suite.github.io/YAGSL/yagsl.json",
+        "javaDependencies": [
+          {
+            "groupId": "swervelib",
+            "artifactId": "YAGSL-java",
+            "version": "2026.2.3.1"
+          },
+          {
+            "groupId": "org.dyn4j",
+            "artifactId": "dyn4j",
+            "version": "5.0.2"
+          }
+        ],
+        "requires": [
+          {
+            "uuid": "3f48eb8c-50fe-43a6-9cb7-44c86353c4cb",
+            "errorMessage": "REVLib is required!",
+            "offlineFileName": "REVLib.json",
+            "onlineUrl": "https://software-metadata.revrobotics.com/REVLib-2026.json"
+          },
+          {
+            "uuid": "60b2694b-9e6e-4026-81ee-6f167946f4b0",
+            "errorMessage": "ThriftyLib is required!",
+            "offlineFileName": "ThriftyLib.json",
+            "onlineUrl": "https://docs.home.thethriftybot.com/ThriftyLib-2026.json"
+          }
+        ],
+        "jniDependencies": [],
+        "cppDependencies": []
+      }
+    ]
+  },
+  "team": 10576,
+  "name": "AshinaBlokRobot",
+  "controllerPort": 0,
+  "subsystems": [
+    {
+      "name": "SwerveSubsystem",
+      "components": [],
+      "methods": [
+        {
+          "role": "default",
+          "blocks": "<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"frc_method_start\"><next><block type=\"frc_swerve_stream\"><value name=\"X\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"frc_controller_axis\"><field name=\"AXIS\">LeftY</field></block></value><value name=\"B\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value><value name=\"B\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"frc_controller_axis\"><field name=\"AXIS\">RightTriggerAxis</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value></block></value></block></value><value name=\"B\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"math_number\"><field name=\"NUM\">1.3</field></block></value><value name=\"B\"><block type=\"frc_controller_axis\"><field name=\"AXIS\">LeftTriggerAxis</field></block></value></block></value></block></value></block></value><value name=\"Y\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"math_single\"><field name=\"OP\">NEG</field><value name=\"NUM\"><block type=\"frc_controller_axis\"><field name=\"AXIS\">LeftX</field></block></value></block></value><value name=\"B\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value><value name=\"B\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"frc_controller_axis\"><field name=\"AXIS\">RightTriggerAxis</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value></block></value></block></value><value name=\"B\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"math_number\"><field name=\"NUM\">1.3</field></block></value><value name=\"B\"><block type=\"frc_controller_axis\"><field name=\"AXIS\">LeftTriggerAxis</field></block></value></block></value></block></value></block></value><value name=\"ROT\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"frc_controller_axis\"><field name=\"AXIS\">RightX</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value></block></value><value name=\"SCALE\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value><value name=\"B\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"frc_controller_axis\"><field name=\"AXIS\">RightTriggerAxis</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value></block></value></block></value><field name=\"ALLIANCE\">TRUE</field></block></next></block></xml>",
+          "name": "teleopDrive"
+        },
+        {
+          "role": "manual",
+          "blocks": "<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"frc_method_start\"><next><block type=\"frc_if_else\"><value name=\"COND\"><block type=\"frc_tags_present\"><field name=\"CAMERA\">photon</field><field name=\"IDS\">21,26,28,2,5,10</field></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">rotation</field><value name=\"VAL\"><block type=\"math_single\"><field name=\"OP\">NEG</field><value name=\"NUM\"><block type=\"frc_pid\"><field name=\"NAME\">aim</field><field name=\"KP\">0.03</field><field name=\"KI\">0</field><field name=\"KD\">0</field><value name=\"MEASUREMENT\"><block type=\"frc_tags_yaw\"><field name=\"CAMERA\">photon</field><field name=\"IDS\">21,26,28,2,5,10</field></block></value><value name=\"SETPOINT\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value></block></value></block></statement><statement name=\"ELSE\"><block type=\"frc_setvar\"><field name=\"VAR\">rotation</field><value name=\"VAL\"><block type=\"frc_controller_axis\"><field name=\"AXIS\">RightX</field></block></value></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_swerve_stream\"><value name=\"X\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"frc_controller_axis\"><field name=\"AXIS\">LeftY</field></block></value><value name=\"B\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value><value name=\"B\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"frc_controller_axis\"><field name=\"AXIS\">RightTriggerAxis</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value></block></value></block></value><value name=\"B\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"math_number\"><field name=\"NUM\">1.3</field></block></value><value name=\"B\"><block type=\"frc_controller_axis\"><field name=\"AXIS\">LeftTriggerAxis</field></block></value></block></value></block></value></block></value><value name=\"Y\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"math_single\"><field name=\"OP\">NEG</field><value name=\"NUM\"><block type=\"frc_controller_axis\"><field name=\"AXIS\">LeftX</field></block></value></block></value><value name=\"B\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value><value name=\"B\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"frc_controller_axis\"><field name=\"AXIS\">RightTriggerAxis</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value></block></value></block></value><value name=\"B\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"math_number\"><field name=\"NUM\">1.3</field></block></value><value name=\"B\"><block type=\"frc_controller_axis\"><field name=\"AXIS\">LeftTriggerAxis</field></block></value></block></value></block></value></block></value><value name=\"ROT\"><block type=\"frc_getvar\"><field name=\"VAR\">rotation</field></block></value><value name=\"SCALE\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value><value name=\"B\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"frc_controller_axis\"><field name=\"AXIS\">RightTriggerAxis</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value></block></value></block></value><field name=\"ALLIANCE\">TRUE</field></block></next></block></next></block></xml>",
+          "name": "aimDrive"
+        },
+        {
+          "role": "manual",
+          "blocks": "<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"frc_method_start\"><next><block type=\"frc_setvar\"><field name=\"VAR\">rotation</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_tags_present\"><field name=\"CAMERA\">photon</field><field name=\"IDS\">21,26,28,2,5,10</field></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">rotation</field><value name=\"VAL\"><block type=\"math_single\"><field name=\"OP\">NEG</field><value name=\"NUM\"><block type=\"frc_pid\"><field name=\"NAME\">aim</field><field name=\"KP\">0.03</field><field name=\"KI\">0</field><field name=\"KD\">0</field><value name=\"MEASUREMENT\"><block type=\"frc_tags_yaw\"><field name=\"CAMERA\">photon</field><field name=\"IDS\">21,26,28,2,5,10</field></block></value><value name=\"SETPOINT\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value></block></value></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_drive_speed\"><value name=\"X\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"Y\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"ROT\"><block type=\"frc_getvar\"><field name=\"VAR\">rotation</field></block></value></block></next></block></next></block></next></block></xml>",
+          "name": "alignAuto"
+        }
+      ]
+    },
+    {
+      "name": "IntakeSubsystem",
+      "components": [
+        {
+          "motorType": "PWMTalonFX",
+          "connection": "PWM",
+          "canId": 20,
+          "canbus": "rio",
+          "pwmChannel": 0,
+          "inverted": false,
+          "brake": true,
+          "currentLimitEnabled": true,
+          "currentLimit": 35,
+          "maxRps": 100,
+          "p": 0,
+          "i": 0,
+          "d": 0,
+          "ff": 0,
+          "closedLoopConfigured": false,
+          "focLicensed": false,
+          "motion": {
+            "configured": false,
+            "cruise": 20,
+            "acceleration": 40,
+            "jerk": 0,
+            "tolerance": 0.05
+          },
+          "type": "motor",
+          "name": "front",
+          "simulation": {
+            "enabled": true,
+            "model": "flywheel",
+            "motorModel": "auto",
+            "gearing": 1,
+            "inertia": 0.002,
+            "mass": 5,
+            "radius": 0.025,
+            "length": 0.5,
+            "min": 0,
+            "max": 1.5,
+            "initial": 0
+          }
+        },
+        {
+          "motorType": "TalonFX_KrakenX60",
+          "connection": "CAN",
+          "canId": 52,
+          "canbus": "rio",
+          "pwmChannel": 0,
+          "inverted": false,
+          "brake": true,
+          "currentLimitEnabled": false,
+          "currentLimit": 35,
+          "maxRps": 100,
+          "p": 0,
+          "i": 0,
+          "d": 0,
+          "ff": 0,
+          "closedLoopConfigured": false,
+          "focLicensed": false,
+          "motion": {
+            "configured": false,
+            "cruise": 20,
+            "acceleration": 40,
+            "jerk": 0,
+            "tolerance": 0.05
+          },
+          "type": "motor",
+          "name": "back",
+          "simulation": {
+            "enabled": true,
+            "model": "flywheel",
+            "motorModel": "auto",
+            "gearing": 1,
+            "inertia": 0.002,
+            "mass": 5,
+            "radius": 0.025,
+            "length": 0.5,
+            "min": 0,
+            "max": 1.5,
+            "initial": 0
+          }
+        }
+      ],
+      "methods": [
+        {
+          "role": "manual",
+          "blocks": "<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"frc_method_start\"><next><block type=\"frc_drive_motor\"><field name=\"MOTOR\">IntakeSubsystem.front</field><value name=\"SPEED\"><block type=\"math_number\"><field name=\"NUM\">-0.5475</field></block></value></block></next></block></xml>",
+          "name": "collect"
+        },
+        {
+          "role": "manual",
+          "blocks": "<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"frc_method_start\"><next><block type=\"frc_drive_motor\"><field name=\"MOTOR\">IntakeSubsystem.front</field><value name=\"SPEED\"><block type=\"math_number\"><field name=\"NUM\">0.5475</field></block></value></block></next></block></xml>",
+          "name": "eject"
+        },
+        {
+          "role": "manual",
+          "blocks": "<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"frc_method_start\"><next><block type=\"frc_drive_motor\"><field name=\"MOTOR\">IntakeSubsystem.front</field><value name=\"SPEED\"><block type=\"math_number\"><field name=\"NUM\">-0.5</field></block></value></block></next></block></xml>",
+          "name": "frontAuto"
+        },
+        {
+          "role": "manual",
+          "blocks": "<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"frc_method_start\"><next><block type=\"frc_stop_motor\"><field name=\"MOTOR\">IntakeSubsystem.front</field></block></next></block></xml>",
+          "name": "frontStop"
+        },
+        {
+          "role": "manual",
+          "blocks": "<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"frc_method_start\"><next><block type=\"frc_stop_motor\"><field name=\"MOTOR\">IntakeSubsystem.back</field></block></next></block></xml>",
+          "name": "backStop"
+        },
+        {
+          "role": "manual",
+          "blocks": "<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"frc_method_start\"><next><block type=\"frc_initvar\"><field name=\"VAR\">intakeState</field><field name=\"INITIAL\">1</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_drive_motor\"><field name=\"MOTOR\">IntakeSubsystem.back</field><value name=\"SPEED\"><block type=\"math_number\"><field name=\"NUM\">0.1</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">intakeState</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_motor_neutral\"><field name=\"MOTOR\">IntakeSubsystem.back</field><field name=\"MODE\">COAST</field></block></next></block></next></block></next></block></next></block></xml>",
+          "name": "getdown"
+        },
+        {
+          "role": "manual",
+          "blocks": "<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"frc_method_start\"><next><block type=\"frc_drive_motor\"><field name=\"MOTOR\">IntakeSubsystem.back</field><value name=\"SPEED\"><block type=\"math_number\"><field name=\"NUM\">-0.2</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">intakeState</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_motor_neutral\"><field name=\"MOTOR\">IntakeSubsystem.back</field><field name=\"MODE\">BRAKE</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_stop_motor\"><field name=\"MOTOR\">IntakeSubsystem.front</field></block></next></block></next></block></next></block></next></block></xml>",
+          "name": "getup"
+        }
+      ]
+    },
+    {
+      "name": "ShooterSubsystem",
+      "components": [
+        {
+          "motorType": "SparkMax_NEO",
+          "connection": "CAN",
+          "canId": 62,
+          "canbus": "rio",
+          "pwmChannel": 0,
+          "inverted": true,
+          "brake": false,
+          "currentLimitEnabled": true,
+          "currentLimit": 40,
+          "maxRps": 65,
+          "p": 0.0002,
+          "i": 0,
+          "d": 0,
+          "ff": 0.002105263157894737,
+          "closedLoopConfigured": true,
+          "focLicensed": false,
+          "motion": {
+            "configured": false,
+            "cruise": 20,
+            "acceleration": 40,
+            "jerk": 0,
+            "tolerance": 0.05
+          },
+          "type": "motor",
+          "secondaryCurrent": 60,
+          "voltageCompensation": 12,
+          "outputMin": 0,
+          "outputMax": 0.85,
+          "persistConfiguration": true,
+          "name": "right",
+          "simulation": {
+            "enabled": true,
+            "model": "flywheel",
+            "motorModel": "auto",
+            "gearing": 1,
+            "inertia": 0.002,
+            "mass": 5,
+            "radius": 0.025,
+            "length": 0.5,
+            "min": 0,
+            "max": 1.5,
+            "initial": 0
+          }
+        },
+        {
+          "motorType": "SparkMax_NEO",
+          "connection": "CAN",
+          "canId": 61,
+          "canbus": "rio",
+          "pwmChannel": 0,
+          "inverted": false,
+          "brake": false,
+          "currentLimitEnabled": true,
+          "currentLimit": 40,
+          "maxRps": 65,
+          "p": 0.0002,
+          "i": 0,
+          "d": 0,
+          "ff": 0.002105263157894737,
+          "closedLoopConfigured": true,
+          "focLicensed": false,
+          "motion": {
+            "configured": false,
+            "cruise": 20,
+            "acceleration": 40,
+            "jerk": 0,
+            "tolerance": 0.05
+          },
+          "type": "motor",
+          "secondaryCurrent": 60,
+          "voltageCompensation": 12,
+          "outputMin": 0,
+          "outputMax": 0.85,
+          "persistConfiguration": true,
+          "name": "left",
+          "followLeader": "right",
+          "followInverted": true,
+          "simulation": {
+            "enabled": true,
+            "model": "flywheel",
+            "motorModel": "auto",
+            "gearing": 1,
+            "inertia": 0.002,
+            "mass": 5,
+            "radius": 0.025,
+            "length": 0.5,
+            "min": 0,
+            "max": 1.5,
+            "initial": 0
+          }
+        },
+        {
+          "motorType": "PWMSparkMax",
+          "connection": "PWM",
+          "canId": 20,
+          "canbus": "rio",
+          "pwmChannel": 1,
+          "inverted": false,
+          "brake": true,
+          "currentLimitEnabled": true,
+          "currentLimit": 35,
+          "maxRps": 100,
+          "p": 0,
+          "i": 0,
+          "d": 0,
+          "ff": 0,
+          "closedLoopConfigured": false,
+          "focLicensed": false,
+          "motion": {
+            "configured": false,
+            "cruise": 20,
+            "acceleration": 40,
+            "jerk": 0,
+            "tolerance": 0.05
+          },
+          "type": "motor",
+          "name": "feeder",
+          "simulation": {
+            "enabled": true,
+            "model": "flywheel",
+            "motorModel": "auto",
+            "gearing": 1,
+            "inertia": 0.002,
+            "mass": 5,
+            "radius": 0.025,
+            "length": 0.5,
+            "min": 0,
+            "max": 1.5,
+            "initial": 0
+          }
+        }
+      ],
+      "methods": [
+        {
+          "role": "manual",
+          "blocks": "<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"frc_method_start\"><next><block type=\"frc_initvar\"><field name=\"VAR\">fixedMode</field><field name=\"INITIAL\">0</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">rps</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">65</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if_else\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">GT</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">fixedMode</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">rps</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">63</field></block></value></block></statement><statement name=\"ELSE\"><block type=\"frc_setvar\"><field name=\"VAR\">hasArea</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if_else\"><value name=\"COND\"><block type=\"frc_tag_present\"><field name=\"CAMERA\">photon</field><field name=\"TAG\">26</field></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">area</field><value name=\"VAL\"><block type=\"frc_tag_value\"><field name=\"CAMERA\">photon</field><field name=\"TAG\">26</field><field name=\"METRIC\">area</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">hasArea</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value></block></next></block></statement><statement name=\"ELSE\"><block type=\"frc_if\"><value name=\"COND\"><block type=\"frc_tag_present\"><field name=\"CAMERA\">photon</field><field name=\"TAG\">9</field></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">area</field><value name=\"VAL\"><block type=\"frc_tag_value\"><field name=\"CAMERA\">photon</field><field name=\"TAG\">9</field><field name=\"METRIC\">area</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">hasArea</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value></block></next></block></statement></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">GT</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">hasArea</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">GT</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">area</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0.3</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">rps</field><value name=\"VAL\"><block type=\"math_constrain\"><value name=\"VALUE\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"math_arithmetic\"><field name=\"OP\">DIVIDE</field><value name=\"A\"><block type=\"math_single\"><field name=\"OP\">ROOT</field><value name=\"NUM\"><block type=\"math_arithmetic\"><field name=\"OP\">DIVIDE</field><value name=\"A\"><block type=\"math_number\"><field name=\"NUM\">7.2</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">area</field></block></value></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">2</field></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">55</field></block></value></block></value><value name=\"LOW\"><block type=\"math_number\"><field name=\"NUM\">30</field></block></value><value name=\"HIGH\"><block type=\"math_number\"><field name=\"NUM\">65</field></block></value></block></value></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_nt_write\"><field name=\"KEY\">/SmartDashboard/Kamera Alan Verisi</field><value name=\"VALUE\"><block type=\"frc_getvar\"><field name=\"VAR\">area</field></block></value></block></next></block></statement></block></next></block></next></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_nt_write\"><field name=\"KEY\">/SmartDashboard/Dinamik Atis Hizi</field><value name=\"VALUE\"><block type=\"frc_getvar\"><field name=\"VAR\">rps</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">requestedRps</field><value name=\"VAL\"><block type=\"frc_getvar\"><field name=\"VAR\">rps</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_call\"><field name=\"METHOD\">ShooterSubsystem.controlMotors</field></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>",
+          "name": "shootDynamic"
+        },
+        {
+          "role": "manual",
+          "blocks": "<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"frc_method_start\"><next><block type=\"frc_setvar\"><field name=\"VAR\">requestedRps</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">65</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_call\"><field name=\"METHOD\">ShooterSubsystem.controlMotors</field></block></next></block></next></block></xml>",
+          "name": "shootAuto"
+        },
+        {
+          "role": "manual",
+          "blocks": "<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"frc_method_start\"><next><block type=\"frc_if_else\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">GT</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">fixedMode</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">fixedMode</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></statement><statement name=\"ELSE\"><block type=\"frc_setvar\"><field name=\"VAR\">fixedMode</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_nt_bool_write\"><field name=\"KEY\">/SmartDashboard/Sabit Atis Modu (63)</field><value name=\"VALUE\"><block type=\"frc_compare\"><field name=\"OP\">GT</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">fixedMode</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value></block></next></block></next></block></xml>",
+          "name": "toggleFixed"
+        },
+        {
+          "role": "manual",
+          "blocks": "<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"frc_method_start\"><next><block type=\"frc_setvar\"><field name=\"VAR\">active</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">targetRPM</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">rampedRPM</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">readySince</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">-1</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">offSpeedSince</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">-1</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_stop_motor\"><field name=\"MOTOR\">ShooterSubsystem.right</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_stop_motor\"><field name=\"MOTOR\">ShooterSubsystem.left</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_stop_motor\"><field name=\"MOTOR\">ShooterSubsystem.feeder</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>",
+          "name": "shootStop"
+        },
+        {
+          "role": "manual",
+          "blocks": "<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"frc_method_start\"><next><block type=\"frc_initvar\"><field name=\"VAR\">active</field><field name=\"INITIAL\">0</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_initvar\"><field name=\"VAR\">fault</field><field name=\"INITIAL\">0</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_initvar\"><field name=\"VAR\">targetRPM</field><field name=\"INITIAL\">0</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_initvar\"><field name=\"VAR\">rampedRPM</field><field name=\"INITIAL\">0</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_initvar\"><field name=\"VAR\">readySince</field><field name=\"INITIAL\">-1</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_initvar\"><field name=\"VAR\">offSpeedSince</field><field name=\"INITIAL\">-1</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_initvar\"><field name=\"VAR\">lastRequest</field><field name=\"INITIAL\">0</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_initvar\"><field name=\"VAR\">lastUpdate</field><field name=\"INITIAL\">0</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_initvar\"><field name=\"VAR\">started</field><field name=\"INITIAL\">0</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">now</field><value name=\"VAL\"><block type=\"frc_time\"></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_bool\"><field name=\"OP\">AND</field><value name=\"A\"><block type=\"frc_compare\"><field name=\"OP\">GT</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">active</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><value name=\"B\"><block type=\"frc_compare\"><field name=\"OP\">GT</field><value name=\"A\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">now</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">lastRequest</field></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0.1</field></block></value></block></value></block></value><statement name=\"DO\"><block type=\"frc_call\"><field name=\"METHOD\">ShooterSubsystem.shootStop</field></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if_else\"><value name=\"COND\"><block type=\"frc_bool\"><field name=\"OP\">OR</field><value name=\"A\"><block type=\"frc_not\"><value name=\"V\"><block type=\"frc_finite\"><value name=\"VALUE\"><block type=\"frc_getvar\"><field name=\"VAR\">requestedRps</field></block></value></block></value></block></value><value name=\"B\"><block type=\"frc_compare\"><field name=\"OP\">LTE</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">requestedRps</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value></block></value><statement name=\"DO\"><block type=\"frc_call\"><field name=\"METHOD\">ShooterSubsystem.shootStop</field></block></statement><statement name=\"ELSE\"><block type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">EQ</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">fault</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_if_else\"><value name=\"COND\"><block type=\"frc_bool\"><field name=\"OP\">OR</field><value name=\"A\"><block type=\"frc_compare\"><field name=\"OP\">EQ</field><value name=\"A\"><block type=\"frc_motor_value\"><field name=\"MOTOR\">ShooterSubsystem.right</field><field name=\"METRIC\">ready</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><value name=\"B\"><block type=\"frc_compare\"><field name=\"OP\">EQ</field><value name=\"A\"><block type=\"frc_motor_value\"><field name=\"MOTOR\">ShooterSubsystem.left</field><field name=\"METRIC\">ready</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">fault</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_call\"><field name=\"METHOD\">ShooterSubsystem.shootStop</field></block></next></block></statement><statement name=\"ELSE\"><block type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">EQ</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">active</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">active</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">started</field><value name=\"VAL\"><block type=\"frc_getvar\"><field name=\"VAR\">now</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">lastUpdate</field><value name=\"VAL\"><block type=\"frc_getvar\"><field name=\"VAR\">now</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">offSpeedSince</field><value name=\"VAL\"><block type=\"frc_getvar\"><field name=\"VAR\">now</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_motor_resume\"><field name=\"MOTOR\">ShooterSubsystem.left</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">EQ</field><value name=\"A\"><block type=\"frc_motor_value\"><field name=\"MOTOR\">ShooterSubsystem.left</field><field name=\"METRIC\">ready</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">fault</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_call\"><field name=\"METHOD\">ShooterSubsystem.shootStop</field></block></next></block></statement></block></next></block></next></block></next></block></next></block></next></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">EQ</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">fault</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">nextRPM</field><value name=\"VAL\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"math_constrain\"><value name=\"VALUE\"><block type=\"frc_getvar\"><field name=\"VAR\">requestedRps</field></block></value><value name=\"LOW\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"HIGH\"><block type=\"math_number\"><field name=\"NUM\">65</field></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">60</field></block></value></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">GT</field><value name=\"A\"><block type=\"math_single\"><field name=\"OP\">ABS</field><value name=\"NUM\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">nextRPM</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">targetRPM</field></block></value></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">100</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">readySince</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">-1</field></block></value></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">targetRPM</field><value name=\"VAL\"><block type=\"frc_getvar\"><field name=\"VAR\">nextRPM</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">lastRequest</field><value name=\"VAL\"><block type=\"frc_getvar\"><field name=\"VAR\">now</field></block></value></block></next></block></next></block></next></block></statement></block></next></block></statement></block></statement></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">GT</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">active</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">rightRPM</field><value name=\"VAL\"><block type=\"frc_motor_value\"><field name=\"MOTOR\">ShooterSubsystem.right</field><field name=\"METRIC\">rpm</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">leftRPM</field><value name=\"VAL\"><block type=\"frc_motor_value\"><field name=\"MOTOR\">ShooterSubsystem.left</field><field name=\"METRIC\">rpm</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">rightTemp</field><value name=\"VAL\"><block type=\"frc_motor_value\"><field name=\"MOTOR\">ShooterSubsystem.right</field><field name=\"METRIC\">temperature</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">leftTemp</field><value name=\"VAL\"><block type=\"frc_motor_value\"><field name=\"MOTOR\">ShooterSubsystem.left</field><field name=\"METRIC\">temperature</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if_else\"><value name=\"COND\"><block type=\"frc_not\"><value name=\"V\"><block type=\"frc_bool\"><field name=\"OP\">AND</field><value name=\"A\"><block type=\"frc_bool\"><field name=\"OP\">AND</field><value name=\"A\"><block type=\"frc_finite\"><value name=\"VALUE\"><block type=\"frc_getvar\"><field name=\"VAR\">rightRPM</field></block></value></block></value><value name=\"B\"><block type=\"frc_finite\"><value name=\"VALUE\"><block type=\"frc_getvar\"><field name=\"VAR\">leftRPM</field></block></value></block></value></block></value><value name=\"B\"><block type=\"frc_bool\"><field name=\"OP\">AND</field><value name=\"A\"><block type=\"frc_finite\"><value name=\"VALUE\"><block type=\"frc_getvar\"><field name=\"VAR\">rightTemp</field></block></value></block></value><value name=\"B\"><block type=\"frc_finite\"><value name=\"VALUE\"><block type=\"frc_getvar\"><field name=\"VAR\">leftTemp</field></block></value></block></value></block></value></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">fault</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_call\"><field name=\"METHOD\">ShooterSubsystem.shootStop</field></block></next></block></statement><statement name=\"ELSE\"><block type=\"frc_if\"><value name=\"COND\"><block type=\"frc_bool\"><field name=\"OP\">OR</field><value name=\"A\"><block type=\"frc_bool\"><field name=\"OP\">OR</field><value name=\"A\"><block type=\"frc_compare\"><field name=\"OP\">GTE</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">rightTemp</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">70</field></block></value></block></value><value name=\"B\"><block type=\"frc_compare\"><field name=\"OP\">GTE</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">leftTemp</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">70</field></block></value></block></value></block></value><value name=\"B\"><block type=\"frc_compare\"><field name=\"OP\">GTE</field><value name=\"A\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">now</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">started</field></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">10</field></block></value></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">fault</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_call\"><field name=\"METHOD\">ShooterSubsystem.shootStop</field></block></next></block></statement></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">GT</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">active</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">dt</field><value name=\"VAL\"><block type=\"math_constrain\"><value name=\"VALUE\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">now</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">lastUpdate</field></block></value></block></value><value name=\"LOW\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"HIGH\"><block type=\"math_number\"><field name=\"NUM\">0.05</field></block></value></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">lastUpdate</field><value name=\"VAL\"><block type=\"frc_getvar\"><field name=\"VAR\">now</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">outputRPM</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">feedPower</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if_else\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">LT</field><value name=\"A\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">now</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">started</field></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0.2</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">feedPower</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">-0.2</field></block></value></block></statement><statement name=\"ELSE\"><block type=\"frc_setvar\"><field name=\"VAR\">rampedRPM</field><value name=\"VAL\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">rampedRPM</field></block></value><value name=\"B\"><block type=\"math_constrain\"><value name=\"VALUE\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">targetRPM</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">rampedRPM</field></block></value></block></value><value name=\"LOW\"><block type=\"math_single\"><field name=\"OP\">NEG</field><value name=\"NUM\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"math_number\"><field name=\"NUM\">2000</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">dt</field></block></value></block></value></block></value><value name=\"HIGH\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"math_number\"><field name=\"NUM\">2000</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">dt</field></block></value></block></value></block></value></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if_else\"><value name=\"COND\"><block type=\"frc_bool\"><field name=\"OP\">AND</field><value name=\"A\"><block type=\"frc_bool\"><field name=\"OP\">AND</field><value name=\"A\"><block type=\"frc_compare\"><field name=\"OP\">LTE</field><value name=\"A\"><block type=\"math_single\"><field name=\"OP\">ABS</field><value name=\"NUM\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">targetRPM</field></block></value><value name=\"B\"><block type=\"math_single\"><field name=\"OP\">ABS</field><value name=\"NUM\"><block type=\"frc_getvar\"><field name=\"VAR\">rightRPM</field></block></value></block></value></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">100</field></block></value></block></value><value name=\"B\"><block type=\"frc_compare\"><field name=\"OP\">LTE</field><value name=\"A\"><block type=\"math_single\"><field name=\"OP\">ABS</field><value name=\"NUM\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">targetRPM</field></block></value><value name=\"B\"><block type=\"math_single\"><field name=\"OP\">ABS</field><value name=\"NUM\"><block type=\"frc_getvar\"><field name=\"VAR\">leftRPM</field></block></value></block></value></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">100</field></block></value></block></value></block></value><value name=\"B\"><block type=\"frc_compare\"><field name=\"OP\">LT</field><value name=\"A\"><block type=\"math_single\"><field name=\"OP\">ABS</field><value name=\"NUM\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">targetRPM</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">rampedRPM</field></block></value></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">offSpeedSince</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">-1</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">LT</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">readySince</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">readySince</field><value name=\"VAL\"><block type=\"frc_getvar\"><field name=\"VAR\">now</field></block></value></block></statement></block></next></block></statement><statement name=\"ELSE\"><block type=\"frc_setvar\"><field name=\"VAR\">readySince</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">-1</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">LT</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">offSpeedSince</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">offSpeedSince</field><value name=\"VAL\"><block type=\"frc_getvar\"><field name=\"VAR\">now</field></block></value></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">GTE</field><value name=\"A\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">now</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">offSpeedSince</field></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">4</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">fault</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_call\"><field name=\"METHOD\">ShooterSubsystem.shootStop</field></block></next></block></statement></block></next></block></next></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">GT</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">active</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">outputRPM</field><value name=\"VAL\"><block type=\"frc_getvar\"><field name=\"VAR\">rampedRPM</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_bool\"><field name=\"OP\">AND</field><value name=\"A\"><block type=\"frc_bool\"><field name=\"OP\">AND</field><value name=\"A\"><block type=\"frc_bool\"><field name=\"OP\">AND</field><value name=\"A\"><block type=\"frc_compare\"><field name=\"OP\">LTE</field><value name=\"A\"><block type=\"math_single\"><field name=\"OP\">ABS</field><value name=\"NUM\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">targetRPM</field></block></value><value name=\"B\"><block type=\"math_single\"><field name=\"OP\">ABS</field><value name=\"NUM\"><block type=\"frc_getvar\"><field name=\"VAR\">rightRPM</field></block></value></block></value></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">100</field></block></value></block></value><value name=\"B\"><block type=\"frc_compare\"><field name=\"OP\">LTE</field><value name=\"A\"><block type=\"math_single\"><field name=\"OP\">ABS</field><value name=\"NUM\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">targetRPM</field></block></value><value name=\"B\"><block type=\"math_single\"><field name=\"OP\">ABS</field><value name=\"NUM\"><block type=\"frc_getvar\"><field name=\"VAR\">leftRPM</field></block></value></block></value></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">100</field></block></value></block></value></block></value><value name=\"B\"><block type=\"frc_compare\"><field name=\"OP\">LT</field><value name=\"A\"><block type=\"math_single\"><field name=\"OP\">ABS</field><value name=\"NUM\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">targetRPM</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">rampedRPM</field></block></value></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value></block></value></block></value><value name=\"B\"><block type=\"frc_compare\"><field name=\"OP\">GTE</field><value name=\"A\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">now</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">readySince</field></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0.15</field></block></value></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">feedPower</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">0.4</field></block></value></block></statement></block></next></block></statement></block></next></block></next></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">GT</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">active</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_if_else\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">GT</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">outputRPM</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_drive_velocity\"><field name=\"MOTOR\">ShooterSubsystem.right</field><value name=\"VEL\"><block type=\"math_arithmetic\"><field name=\"OP\">DIVIDE</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">outputRPM</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">60</field></block></value></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">EQ</field><value name=\"A\"><block type=\"frc_motor_value\"><field name=\"MOTOR\">ShooterSubsystem.right</field><field name=\"METRIC\">lastOk</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">fault</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_call\"><field name=\"METHOD\">ShooterSubsystem.shootStop</field></block></next></block></statement></block></next></block></statement><statement name=\"ELSE\"><block type=\"frc_stop_motor\"><field name=\"MOTOR\">ShooterSubsystem.right</field></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">GT</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">active</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_drive_motor\"><field name=\"MOTOR\">ShooterSubsystem.feeder</field><value name=\"SPEED\"><block type=\"frc_getvar\"><field name=\"VAR\">feedPower</field></block></value></block></statement></block></next></block></statement></block></next></block></next></block></next></block></next></block></next></block></statement></block></next></block></next></block></next></block></next></block></next></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_nt_write\"><field name=\"KEY\">/SmartDashboard/Shooter/TargetRPM</field><value name=\"VALUE\"><block type=\"frc_getvar\"><field name=\"VAR\">targetRPM</field></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_nt_write\"><field name=\"KEY\">/SmartDashboard/Shooter/Fault</field><value name=\"VALUE\"><block type=\"frc_getvar\"><field name=\"VAR\">fault</field></block></value></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>",
+          "name": "controlMotors"
+        }
+      ]
+    },
+    {
+      "name": "LedSubsystem",
+      "components": [
+        {
+          "canbus": "rio",
+          "canId": 0,
+          "dioChannel": 0,
+          "normallyOpen": true,
+          "inverted": false,
+          "type": "led",
+          "name": "strip",
+          "pwmChannel": 2,
+          "length": 36
+        }
+      ],
+      "methods": [
+        {
+          "role": "always",
+          "blocks": "<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"frc_method_start\"><next><block type=\"frc_initvar\"><field name=\"VAR\">breatheUp</field><field name=\"INITIAL\">1</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_initvar\"><field name=\"VAR\">breathe</field><field name=\"INITIAL\">0</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_initvar\"><field name=\"VAR\">chaseOffset</field><field name=\"INITIAL\">0</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_initvar\"><field name=\"VAR\">teleOffset</field><field name=\"INITIAL\">0</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_initvar\"><field name=\"VAR\">teleTicks</field><field name=\"INITIAL\">0</field><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if_else\"><value name=\"COND\"><block type=\"frc_robot_mode\"><field name=\"MODE\">AUTO</field></block></value><statement name=\"DO\"><block type=\"frc_for_index\"><field name=\"VAR\">i</field><value name=\"FROM\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"TO\"><block type=\"math_number\"><field name=\"NUM\">36</field></block></value><statement name=\"DO\"><block type=\"frc_if_else\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">EQ</field><value name=\"A\"><block type=\"math_modulo\"><value name=\"DIVIDEND\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">i</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">chaseOffset</field></block></value></block></value><value name=\"DIVISOR\"><block type=\"math_number\"><field name=\"NUM\">10</field></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_led_pixel\"><field name=\"DEVICE\">LedSubsystem.strip</field><value name=\"INDEX\"><block type=\"frc_getvar\"><field name=\"VAR\">i</field></block></value><value name=\"R\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"G\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value></block></statement><statement name=\"ELSE\"><block type=\"frc_if_else\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">EQ</field><value name=\"A\"><block type=\"math_modulo\"><value name=\"DIVIDEND\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">i</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">chaseOffset</field></block></value></block></value><value name=\"DIVISOR\"><block type=\"math_number\"><field name=\"NUM\">10</field></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_led_pixel\"><field name=\"DEVICE\">LedSubsystem.strip</field><value name=\"INDEX\"><block type=\"frc_getvar\"><field name=\"VAR\">i</field></block></value><value name=\"R\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"G\"><block type=\"math_number\"><field name=\"NUM\">100</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></statement><statement name=\"ELSE\"><block type=\"frc_led_pixel\"><field name=\"DEVICE\">LedSubsystem.strip</field><value name=\"INDEX\"><block type=\"frc_getvar\"><field name=\"VAR\">i</field></block></value><value name=\"R\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"G\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></statement></block></statement></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">chaseOffset</field><value name=\"VAL\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">chaseOffset</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">GTE</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">chaseOffset</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">36</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">chaseOffset</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></statement></block></next></block></next></block></statement><statement name=\"ELSE\"><block type=\"frc_if_else\"><value name=\"COND\"><block type=\"frc_robot_mode\"><field name=\"MODE\">TELEOP</field></block></value><statement name=\"DO\"><block type=\"frc_for_index\"><field name=\"VAR\">i</field><value name=\"FROM\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"TO\"><block type=\"math_number\"><field name=\"NUM\">36</field></block></value><statement name=\"DO\"><block type=\"frc_led_pixel\"><field name=\"DEVICE\">LedSubsystem.strip</field><value name=\"INDEX\"><block type=\"frc_getvar\"><field name=\"VAR\">i</field></block></value><value name=\"R\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"G\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">leftBase</field><value name=\"VAL\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"math_number\"><field name=\"NUM\">15</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">teleOffset</field></block></value></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">rightBase</field><value name=\"VAL\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"math_number\"><field name=\"NUM\">18</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">teleOffset</field></block></value></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">brightness</field><value name=\"VAL\"><block type=\"math_constrain\"><value name=\"VALUE\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"B\"><block type=\"math_arithmetic\"><field name=\"OP\">MULTIPLY</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">teleOffset</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">14</field></block></value></block></value></block></value><value name=\"LOW\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"HIGH\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_for_index\"><field name=\"VAR\">j</field><value name=\"FROM\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"TO\"><block type=\"math_number\"><field name=\"NUM\">3</field></block></value><statement name=\"DO\"><block type=\"frc_if\"><value name=\"COND\"><block type=\"frc_bool\"><field name=\"OP\">AND</field><value name=\"A\"><block type=\"frc_compare\"><field name=\"OP\">GTE</field><value name=\"A\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">leftBase</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">j</field></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><value name=\"B\"><block type=\"frc_compare\"><field name=\"OP\">LT</field><value name=\"A\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">leftBase</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">j</field></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">36</field></block></value></block></value></block></value><statement name=\"DO\"><block type=\"frc_led_pixel\"><field name=\"DEVICE\">LedSubsystem.strip</field><value name=\"INDEX\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">leftBase</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">j</field></block></value></block></value><value name=\"R\"><block type=\"frc_getvar\"><field name=\"VAR\">brightness</field></block></value><value name=\"G\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_bool\"><field name=\"OP\">AND</field><value name=\"A\"><block type=\"frc_compare\"><field name=\"OP\">GTE</field><value name=\"A\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">rightBase</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">j</field></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><value name=\"B\"><block type=\"frc_compare\"><field name=\"OP\">LT</field><value name=\"A\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">rightBase</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">j</field></block></value></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">36</field></block></value></block></value></block></value><statement name=\"DO\"><block type=\"frc_led_pixel\"><field name=\"DEVICE\">LedSubsystem.strip</field><value name=\"INDEX\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">rightBase</field></block></value><value name=\"B\"><block type=\"frc_getvar\"><field name=\"VAR\">j</field></block></value></block></value><value name=\"R\"><block type=\"frc_getvar\"><field name=\"VAR\">brightness</field></block></value><value name=\"G\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></statement></block></next></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">teleTicks</field><value name=\"VAL\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">teleTicks</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">GTE</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">teleTicks</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">4</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">teleOffset</field><value name=\"VAL\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">teleOffset</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value></block></value><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_setvar\"><field name=\"VAR\">teleTicks</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></next></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">GT</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">teleOffset</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">17</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">teleOffset</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></statement></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></statement><statement name=\"ELSE\"><block type=\"frc_if_else\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">GT</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">breatheUp</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">breathe</field><value name=\"VAL\"><block type=\"math_arithmetic\"><field name=\"OP\">ADD</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">breathe</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">2</field></block></value></block></value></block></statement><statement name=\"ELSE\"><block type=\"frc_setvar\"><field name=\"VAR\">breathe</field><value name=\"VAL\"><block type=\"math_arithmetic\"><field name=\"OP\">MINUS</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">breathe</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">2</field></block></value></block></value></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">GTE</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">breathe</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">150</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">breatheUp</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_if\"><value name=\"COND\"><block type=\"frc_compare\"><field name=\"OP\">LTE</field><value name=\"A\"><block type=\"frc_getvar\"><field name=\"VAR\">breathe</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value><statement name=\"DO\"><block type=\"frc_setvar\"><field name=\"VAR\">breatheUp</field><value name=\"VAL\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value></block></statement><next xmlns=\"http://www.w3.org/1999/xhtml\"><block xmlns=\"\" type=\"frc_for_index\"><field name=\"VAR\">i</field><value name=\"FROM\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"TO\"><block type=\"math_number\"><field name=\"NUM\">36</field></block></value><statement name=\"DO\"><block type=\"frc_led_pixel\"><field name=\"DEVICE\">LedSubsystem.strip</field><value name=\"INDEX\"><block type=\"frc_getvar\"><field name=\"VAR\">i</field></block></value><value name=\"R\"><block type=\"frc_getvar\"><field name=\"VAR\">breathe</field></block></value><value name=\"G\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"B\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></statement></block></next></block></next></block></next></block></statement></block></statement></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>",
+          "name": "animate"
+        }
+      ]
+    }
+  ],
+  "controllerBindings": [
+    {
+      "button": "b",
+      "type": "zeroGyro",
+      "independent": true
+    },
+    {
+      "button": "leftBumper",
+      "type": "method",
+      "trigger": "whileTrue",
+      "methodPath": "IntakeSubsystem.collect",
+      "stopMethod": "IntakeSubsystem.frontStop"
+    },
+    {
+      "button": "start",
+      "type": "method",
+      "trigger": "whileTrue",
+      "methodPath": "IntakeSubsystem.eject",
+      "stopMethod": "IntakeSubsystem.frontStop"
+    },
+    {
+      "button": "povUp",
+      "type": "method",
+      "trigger": "whileTrue",
+      "methodPath": "IntakeSubsystem.getup",
+      "stopMethod": "IntakeSubsystem.backStop"
+    },
+    {
+      "button": "povDown",
+      "type": "method",
+      "trigger": "whileTrue",
+      "methodPath": "IntakeSubsystem.getdown",
+      "stopMethod": "IntakeSubsystem.backStop"
+    },
+    {
+      "button": "y",
+      "type": "method",
+      "trigger": "onTrue",
+      "methodPath": "ShooterSubsystem.toggleFixed",
+      "independent": true
+    },
+    {
+      "button": "rightBumper",
+      "type": "method",
+      "trigger": "whileTrue",
+      "methodPath": "ShooterSubsystem.shootDynamic",
+      "stopMethod": "ShooterSubsystem.shootStop"
+    },
+    {
+      "button": "a",
+      "type": "method",
+      "trigger": "whileTrue",
+      "methodPath": "SwerveSubsystem.aimDrive",
+      "stopMethod": ""
+    }
+  ],
+  "swerveConfig": {
+    "gyro": {
+      "type": "adis16470",
+      "id": 1,
+      "canbus": "rio",
+      "inverted": false
+    },
+    "physical": {
+      "driveGearRatio": 6.75,
+      "wheelDiameter": 4,
+      "angleGearRatio": 26,
+      "driveCurrentLimit": 40,
+      "angleCurrentLimit": 20
+    },
+    "pid": {
+      "driveP": 0.0020645,
+      "driveI": 0,
+      "driveD": 0,
+      "angleP": 22,
+      "angleI": 0,
+      "angleD": 0
+    },
+    "controller": {
+      "angleDeadband": 0.05,
+      "headingP": 0.4,
+      "headingI": 0,
+      "headingD": 0.01
+    },
+    "modules": {
+      "frontleft": {
+        "location": {
+          "front": -10.3,
+          "left": 10.3
+        },
+        "drive": {
+          "type": "krakenx60",
+          "id": 31,
+          "canbus": "rio",
+          "inverted": false
+        },
+        "angle": {
+          "type": "krakenx60",
+          "id": 32,
+          "canbus": "rio",
+          "inverted": false
+        },
+        "encoder": {
+          "type": "cancoder",
+          "id": 33,
+          "canbus": "rio",
+          "offset": 277,
+          "inverted": true
+        }
+      },
+      "frontright": {
+        "location": {
+          "front": -10.3,
+          "left": -10.3
+        },
+        "drive": {
+          "type": "krakenx60",
+          "id": 21,
+          "canbus": "rio",
+          "inverted": true
+        },
+        "angle": {
+          "type": "krakenx60",
+          "id": 22,
+          "canbus": "rio",
+          "inverted": false
+        },
+        "encoder": {
+          "type": "cancoder",
+          "id": 23,
+          "canbus": "rio",
+          "offset": 134,
+          "inverted": true
+        }
+      },
+      "backleft": {
+        "location": {
+          "front": 10.3,
+          "left": 10.3
+        },
+        "drive": {
+          "type": "krakenx60",
+          "id": 41,
+          "canbus": "rio",
+          "inverted": false
+        },
+        "angle": {
+          "type": "krakenx60",
+          "id": 42,
+          "canbus": "rio",
+          "inverted": false
+        },
+        "encoder": {
+          "type": "cancoder",
+          "id": 43,
+          "canbus": "rio",
+          "offset": 208,
+          "inverted": true
+        }
+      },
+      "backright": {
+        "location": {
+          "front": 10.3,
+          "left": -10.3
+        },
+        "drive": {
+          "type": "krakenx60",
+          "id": 11,
+          "canbus": "rio",
+          "inverted": true
+        },
+        "angle": {
+          "type": "krakenx60",
+          "id": 12,
+          "canbus": "rio",
+          "inverted": false
+        },
+        "encoder": {
+          "type": "cancoder",
+          "id": 13,
+          "canbus": "rio",
+          "offset": 326,
+          "inverted": true
+        }
+      }
+    },
+    "maxSpeed": 6.096,
+    "deadband": 0.05,
+    "cosineCompensator": false,
+    "moduleOrder": [
+      "backleft",
+      "backright",
+      "frontleft",
+      "frontright"
+    ],
+    "extraPhysical": {
+      "optimalVoltage": 12,
+      "robotMass": 110.2311,
+      "wheelGripCoefficientOfFriction": 1.19,
+      "currentLimit": {
+        "drive": 40,
+        "angle": 20
+      },
+      "conversionFactors": {
+        "angle": {
+          "gearRatio": 26,
+          "factor": 0
+        },
+        "drive": {
+          "diameter": 4,
+          "gearRatio": 6.75,
+          "factor": 0
+        }
+      },
+      "rampRate": {
+        "drive": 0.25,
+        "angle": 0.25
+      }
+    }
+  },
+  "drive": {
+    "type": "swerve",
+    "subsystem": "SwerveSubsystem",
+    "scale": 1,
+    "fieldRelative": true,
+    "motors": {}
+  },
+  "autonomous": []
+}

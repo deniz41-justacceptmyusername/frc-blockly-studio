@@ -1,0 +1,16 @@
+package frc.robot.runtime;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+public interface DriveIO {
+    Pose2d getPose();
+    void resetPose(Pose2d pose);
+    ChassisSpeeds getRobotSpeeds();
+    void driveRobotRelative(ChassisSpeeds speeds);
+    void addVisionMeasurement(Pose2d pose, double timestamp, Matrix<N3,N1> deviations);
+    default Subsystem requirement() { return (Subsystem)this; }
+    default void stopDrive() { driveRobotRelative(new ChassisSpeeds()); }
+}

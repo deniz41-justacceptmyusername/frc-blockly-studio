@@ -1,0 +1,48 @@
+package frc.robot.runtime;
+import edu.wpi.first.apriltag.*;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
+import frc.robot.RobotIO;
+import java.util.*;
+public final class RobotVision {
+    private final Map<String,VisionCamera> cameras=new LinkedHashMap<>();
+    private final Set<String> fusion=new HashSet<>();
+    private final Set<String> failed=new HashSet<>();
+    private final DriveIO drive;
+    private final VisionGate gate;
+    private double lastYaw=Double.NaN,lastTime;
+    public RobotVision(DriveIO drive) {
+        this.drive=drive;
+        AprilTagFieldLayout layout=AprilTagFieldLayout.loadField(AprilTagFields.@@FIELD@@);
+        gate=new VisionGate(new VisionGate.Limits(@@LIMITS@@,layout.getFieldLength(),layout.getFieldWidth()));
+@@CAMERA_CONSTRUCTORS@@
+    }
+    public boolean hasTarget(String id) { VisionCamera c=cameras.get(id);return c!=null&&c.hasTarget(Timer.getFPGATimestamp(),@@MAX_AGE@@); }
+    public double value(String id,String metric) { VisionCamera c=cameras.get(id);return c==null?0:c.value(metric,Timer.getFPGATimestamp(),@@MAX_AGE@@); }
+    public boolean hasTag(String id,int tag){VisionCamera c=cameras.get(id);return c!=null&&c.hasTag(tag,Timer.getFPGATimestamp(),@@MAX_AGE@@);}
+    public double tagValue(String id,int tag,String metric){VisionCamera c=cameras.get(id);return c==null?0:c.tagValue(tag,metric,Timer.getFPGATimestamp(),@@MAX_AGE@@);}
+    public boolean hasAnyTag(String id,int... tags){for(int tag:tags)if(hasTag(id,tag))return true;return false;}
+    public double averageYaw(String id,int... tags){VisionCamera c=cameras.get(id);return c==null?0:c.averageYaw(tags,Timer.getFPGATimestamp(),@@MAX_AGE@@);}
+    public void pipeline(String id,int pipeline) { if(cameras.containsKey(id))cameras.get(id).pipeline(Math.max(0,Math.min(255,pipeline))); }
+    public void led(String id,String mode) { if(cameras.containsKey(id))cameras.get(id).led(mode); }
+    public void driverMode(String id,boolean value) { if(cameras.containsKey(id))cameras.get(id).driverMode(value); }
+    public void periodic() {
+        double now=Timer.getFPGATimestamp(),rawYaw=RobotIO.headingDegrees(),dt=now-lastTime;
+        double rate=Double.isFinite(lastYaw)&&dt>0.001?Math.toDegrees(edu.wpi.first.math.MathUtil.angleModulus(Math.toRadians(rawYaw-lastYaw)))/dt:0;
+        lastYaw=rawYaw;lastTime=now;
+        double heading=drive==null?rawYaw:drive.getPose().getRotation().getDegrees();
+        for(var entry:cameras.entrySet())try {
+            String id=entry.getKey();
+            entry.getValue().update(now,heading,rate,m->{
+                if(drive!=null&&fusion.contains(id)&&(@@FUSION_CONDITION@@)) {
+                    double xy=@@STD_XY@@*Math.max(1,m.distance()*m.distance()/Math.max(1,m.tags()));
+                    drive.addVisionMeasurement(m.pose().toPose2d(),m.timestamp(),@@VISION_NOISE@@);
+                    RobotServices.publish("/FRCStudio/Vision/"+id+"/acceptedTimestamp",m.timestamp());
+                }
+            });
+            RobotServices.publish("/FRCStudio/Vision/"+id+"/hasTarget",hasTarget(id)?1:0);
+            RobotServices.publish("/FRCStudio/Vision/"+id+"/connected",entry.getValue().connected()?1:0);
+        }catch(Exception e){if(failed.add(entry.getKey()))DriverStation.reportError("Vision "+entry.getKey()+": "+e.getMessage(),e.getStackTrace());}
+    }
+}

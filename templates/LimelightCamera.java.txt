@@ -1,0 +1,39 @@
+package frc.robot.runtime;
+import frc.robot.LimelightHelpers;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.wpilibj.Timer;
+import java.util.function.Consumer;
+public final class LimelightCamera extends VisionCamera {
+    private final String name;
+    private final boolean megaTag2;
+    private final NetworkTable table;
+    private double heartbeat=-1,heartbeatTime=-1;
+    public LimelightCamera(String name,boolean megaTag2,double x,double y,double z,double roll,double pitch,double yaw,int pipeline,boolean driverMode) {
+        this.name=name;this.megaTag2=megaTag2;table=NetworkTableInstance.getDefault().getTable(name);
+        LimelightHelpers.setCameraPose_RobotSpace(name,x,y,z,roll,pitch,yaw);pipeline(pipeline);driverMode(driverMode);
+    }
+    @Override public void update(double now,double heading,double yawRate,Consumer<Measurement> sink) {
+        double hb=table.getEntry("hb").getDouble(-1);if(hb>=0&&hb!=heartbeat){heartbeat=hb;heartbeatTime=now;lastFrame=now;}
+        target=connected()&&LimelightHelpers.getTV(name);
+        yaw=LimelightHelpers.getTX(name);pitch=LimelightHelpers.getTY(name);area=LimelightHelpers.getTA(name);id=LimelightHelpers.getFiducialID(name);
+        if(megaTag2)LimelightHelpers.SetRobotOrientation(name,heading,yawRate,0,0,0,0);
+        // Pose, fiducials and timestamp must come from one atomic NetworkTables frame.
+        var snapshot=LimelightHelpers.getLimelightDoubleArrayEntry(name,megaTag2?"botpose_orb_wpiblue":"botpose_wpiblue").getAtomic();
+        double[] raw=snapshot.value;
+        if(target&&raw.length>=11&&raw[7]>=1&&raw[7]<=64&&Double.isFinite(raw[6])&&raw[6]>=0) {
+            int tags=(int)raw[7];distance=raw[9];latency=raw[6];
+            double ambiguity=-1;
+            if(raw.length==11+7*tags){ambiguity=raw[17];for(int n=1;n<tags;n++)ambiguity=Math.max(ambiguity,raw[17+7*n]);}
+            pose=new Pose3d(raw[0],raw[1],raw[2],new Rotation3d(Math.toRadians(raw[3]),Math.toRadians(raw[4]),Math.toRadians(raw[5])));
+            poseFrame=snapshot.timestamp/1e6-latency/1000.0;
+            sink.accept(new Measurement(pose,snapshot.timestamp/1e6-latency/1000.0,tags,ambiguity,distance));
+        }
+    }
+    @Override public boolean connected() { return heartbeatTime>=0&&Timer.getFPGATimestamp()-heartbeatTime<0.5; }
+    @Override public void pipeline(int index) { LimelightHelpers.setPipelineIndex(name,index); }
+    @Override public void led(String mode) { switch(mode){case "OFF"->LimelightHelpers.setLEDMode_ForceOff(name);case "ON"->LimelightHelpers.setLEDMode_ForceOn(name);case "BLINK"->LimelightHelpers.setLEDMode_ForceBlink(name);default->LimelightHelpers.setLEDMode_PipelineControl(name);} }
+    @Override public void driverMode(boolean enabled) { table.getEntry("camMode").setNumber(enabled?1:0); }
+}

@@ -1,0 +1,25 @@
+package frc.robot.runtime;
+import edu.wpi.first.math.geometry.Pose3d;
+import java.util.function.Consumer;
+public abstract class VisionCamera {
+    public record Measurement(Pose3d pose,double timestamp,int tags,double ambiguity,double distance) {}
+    protected double yaw,pitch,area,id=-1,distance,latency,lastFrame=-1,poseFrame=-1;
+    protected Pose3d pose=new Pose3d();
+    protected boolean target;
+    protected record Tag(double yaw,double area) {}
+    protected final java.util.Map<Integer,Tag> tags=new java.util.LinkedHashMap<>();
+    public boolean hasTag(int id,double now,double maxAge){return hasTarget(now,maxAge)&&tags.containsKey(id);}
+    public double tagValue(int id,String metric,double now,double maxAge){if(!hasTag(id,now,maxAge))return 0;Tag t=tags.get(id);return metric.equals("yaw")?t.yaw():t.area();}
+    public double averageYaw(int[] ids,double now,double maxAge){double sum=0;int count=0;if(!hasTarget(now,maxAge))return 0;for(var entry:tags.entrySet())for(int id:ids)if(id==entry.getKey()){sum+=entry.getValue().yaw();count++;break;}return count==0?0:sum/count;}
+    public abstract void update(double now,double heading,double yawRate,Consumer<Measurement> sink);
+    public abstract boolean connected();
+    public abstract void pipeline(int index);
+    public abstract void led(String mode);
+    public abstract void driverMode(boolean enabled);
+    public boolean hasTarget(double now,double maxAge) { return connected()&&target&&now-lastFrame>=0&&now-lastFrame<=maxAge; }
+    public double value(String metric,double now,double maxAge) {
+        if(!hasTarget(now,maxAge))return 0;
+        if(metric.startsWith("pose")&&(now-poseFrame<0||now-poseFrame>maxAge))return 0;
+        return switch(metric) {case "yaw"->yaw;case "pitch"->pitch;case "area"->area;case "id"->id;case "distance"->distance;case "latency"->latency;case "poseX"->pose.getX();case "poseY"->pose.getY();case "poseYaw"->pose.getRotation().toRotation2d().getDegrees();default->0;};
+    }
+}

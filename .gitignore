@@ -1,0 +1,14 @@
+node_modules/
+test-results/
+playwright-report/
+tests-v3/test-output/
+.gradle/
+build/
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+preview.png
+Ashina-example.json

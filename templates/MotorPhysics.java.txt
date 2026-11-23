@@ -1,0 +1,26 @@
+package frc.robot.runtime;
+import edu.wpi.first.math.system.plant.*;
+import edu.wpi.first.wpilibj.simulation.*;
+import java.util.function.*;
+public final class MotorPhysics {
+    public record State(double rotorRotations,double rotorRps,double currentAmps,double mechanismPosition) {}
+    private final FlywheelSim flywheel;
+    private final ElevatorSim elevator;
+    private final SingleJointedArmSim arm;
+    private final double gearing,radius;
+    private final DoubleSupplier voltage;
+    private final Consumer<State> feedback;
+    private double rotations;
+    public MotorPhysics(String kind,DCMotor motor,double gearing,double inertia,double mass,double radius,double length,double min,double max,double initial,DoubleSupplier voltage,Consumer<State> feedback) {
+        this.gearing=gearing;this.radius=radius;this.voltage=voltage;this.feedback=feedback;
+        flywheel=kind.equals("flywheel")?new FlywheelSim(LinearSystemId.createFlywheelSystem(motor,inertia,gearing),motor):null;
+        elevator=kind.equals("elevator")?new ElevatorSim(motor,gearing,mass,radius,min,max,true,initial):null;
+        arm=kind.equals("arm")?new SingleJointedArmSim(motor,gearing,inertia,length,min,max,true,initial):null;
+    }
+    public void update(double dt) {
+        double volts=edu.wpi.first.wpilibj.DriverStation.isEnabled()?voltage.getAsDouble():0;if(!Double.isFinite(volts))volts=0;
+        if(flywheel!=null){flywheel.setInputVoltage(volts);flywheel.update(dt);double rps=flywheel.getAngularVelocityRadPerSec()/(2*Math.PI)*gearing;rotations+=rps*dt;feedback.accept(new State(rotations,rps,flywheel.getCurrentDrawAmps(),rotations/gearing));}
+        else if(elevator!=null){elevator.setInputVoltage(volts);elevator.update(dt);feedback.accept(new State(elevator.getPositionMeters()/(2*Math.PI*radius)*gearing,elevator.getVelocityMetersPerSecond()/(2*Math.PI*radius)*gearing,elevator.getCurrentDrawAmps(),elevator.getPositionMeters()));}
+        else if(arm!=null){arm.setInputVoltage(volts);arm.update(dt);feedback.accept(new State(arm.getAngleRads()/(2*Math.PI)*gearing,arm.getVelocityRadPerSec()/(2*Math.PI)*gearing,arm.getCurrentDrawAmps(),arm.getAngleRads()));}
+    }
+}
